@@ -109,7 +109,7 @@ return [
     */
 
     'resource' => [
-        'stylesheets' => [],
+        'stylesheets' => ['/css/orchid.css'],
         'scripts'     => [],
     ],
 

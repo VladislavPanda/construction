@@ -98,13 +98,28 @@ class DriversScreen extends Screen
                         return Group::make([
                             Button::make('Редактировать')
                                     ->method('update')
-                                    ->type(Color::PRIMARY())
+                                    //->type(Color::PRIMARY())
+                                    ->class('tableBtn')
                                     ->parameters([
-                                        'driverr_id' => $user->id,
+                                        'driver_id' => $user->id,
+                                    ]),
+
+                            Button::make('Назначить задачу')
+                                    ->method('setTask')
+                                    ->class('tableBtn')
+                                    //->type(Color::PRIMARY())
+                                    ->parameters([
+                                        'driver_id' => $user->id,
                                     ]),
                         ])->autoWidth();
                     }),
             ])
         ];
+    }
+
+    public function setTask(Request $request){
+        $userId = $request->get('driver_id');
+
+        return redirect()->route('platform.driverTaskAdd', ['driver_id' => $userId]);
     }
 }

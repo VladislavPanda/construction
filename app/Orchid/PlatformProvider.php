@@ -165,7 +165,7 @@ class PlatformProvider extends OrchidServiceProvider
         // менеджер: может заполнять инфу о созданных сотрудниках (аккаунты создает админ), поля: ФИО, специальность (выпадайка - список созданных специальностей), телефон. также может давать задачи водителям
         // сотрудник: просмотр зп
         // водитель: просмотр заказов (кнопка обработал или нет) если нет, то всплывайка с причиной почему не обработал, 
-        // поля задания: адрес, название, описание, примечание, время (промежуток), что нужно иметь, контакт
+        // поля задания: адрес, название, описание, время (промежуток), что нужно иметь, контакт
 
         return [
             ItemPermission::group(__('System'))
@@ -180,7 +180,8 @@ class PlatformProvider extends OrchidServiceProvider
             ItemPermission::group(__('Менеджер'))
                 ->addPermission('platform.workers', __('Список сотрудников'))
                 ->addPermission('platform.drivers', __('Список водителей'))
-                ->addPermission('platform.foremen', __('Список прорабов')),
+                ->addPermission('platform.foremen', __('Список прорабов'))
+                ->addPermission('platform.driverTaskAdd', __('Назначить задачу водителю')),
                 
                 //->addPermission('platform.driverInfoAdd', __('Добавить сведения о водителе'))
                 /*->addPermission('platform.drivers', __('Водители'))
