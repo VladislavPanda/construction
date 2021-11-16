@@ -9,6 +9,7 @@ use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Actions\Button;
 use Orchid\Support\Color;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Http\Request;
 use Orchid\Support\Facades\Alert;
 use App\Http\Controllers\TaskController;
@@ -75,12 +76,14 @@ class DriverTaskAddScreen extends Screen
                     DateTimer::make('start_date')
                         ->title('Стартовая дата:')
                         ->format('d-m-Y')
-                        ->required(),
+                        ->required()
+                        ->available([ ['from' => Date::today(), "to" => Date::maxValue()] ]),
 
                     DateTimer::make('end_date')
                         ->title('Конечная дата:')
                         ->format('d-m-Y')
-                        ->required(),    
+                        ->required()
+                        ->available([ ['from' => Date::today(), "to" => Date::maxValue()] ]),    
 
                     Button::make('Добавить')
                         ->method('submit')
