@@ -170,8 +170,6 @@ class UserEditScreen extends Screen
      */
     public function save(User $user, Request $request)
     {
-
-
         $request->validate([
             'user.email' => [
                 'required',
@@ -187,6 +185,7 @@ class UserEditScreen extends Screen
             ->toArray();
 
         $userData = $request->get('user');
+        //$userData['status'] = null;
 
         // Проверяем роли: если это не сотрудник, то убираем специальность
         if($userData['roles'][0] != '3') $userData['speciality'] = null;
