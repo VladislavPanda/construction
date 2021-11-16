@@ -50,7 +50,9 @@ class DriversScreen extends Screen
         
         // Совмещаем водителей и их статусы в единый массив
         foreach($drivers as $key => &$value){
-            $value['status'] = $statuses[$key]['title'];
+            // Проверка на существование статуса
+            if(isset($statuses[$key]['title'])) $value['status'] = $statuses[$key]['title'];
+            else $value['status'] = 'Без задач'; 
         }
 
         // Заполнение итогового массива данными через репозиторий
