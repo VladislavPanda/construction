@@ -4,6 +4,7 @@ namespace App\Orchid\Screens;
 
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
+use Orchid\Support\Facades\Alert;
 use Orchid\Screen\TD;
 use Illuminate\Support\Str;
 use Orchid\Screen\Fields\Group;
@@ -14,7 +15,7 @@ use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\TextArea;
 use App\Models\Task;
 use App\Services\AuthHandler;
-//use App\Http\Controllers\WorkerController;
+use App\Http\Controllers\TaskController;
 
 class DriverTasksScreen extends Screen
 {
@@ -128,15 +129,23 @@ class DriverTasksScreen extends Screen
     }
 
     public function done(Request $request){
+        $flag = false;
         $taskId = $request->get('id');
 
-        dd($taskId);
+        $controller = new TaskController();
+        $flag = $controller->setDone($taskId);
+
+        if($flag === true) Alert::warning('Задача отмечена как выполненная');
     }
 
     public function reject(Request $request){
+        $flag = false;
         $taskId = $request->get('id');
         $rejectReason = $request->get('reject_reason');
     
-        dd($rejectReason);
+        $controller = new TaskController();
+        $flag = $controller->setReject($taskId, $rejectReason);
+
+        
     }
 }

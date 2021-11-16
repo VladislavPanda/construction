@@ -9,7 +9,9 @@ use App\Models\Status;
 class TaskController extends Controller
 {
     private static $statuses = [
-        'hasTasks' => 'Задачи назначены'
+        'hasTasks' => 'Задачи назначены',
+        'done' => 'Выполнено',
+        'rejected' => 'Не выполнено'
     ];
 
     public function store($driverTask){
@@ -25,6 +27,24 @@ class TaskController extends Controller
         }
         
         // Нужны проверки
+        return true;
+    }
+
+    public function setDone($taskId){
+        $flag = false;
+        $task = Task::find($taskId);
+
+        $task->update(['status' => self::$statuses['done']]);
+
+        return true;
+    }
+
+    public function setReject($taskId, $rejectReason){
+        $flag = false;
+        $task = Task::find($taskId);
+
+        $task->update(['status' => self::$statuses['rejected'], 'reject_reason' => $rejectReason]);
+
         return true;
     }
 }

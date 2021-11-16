@@ -134,6 +134,14 @@ class DriversScreen extends Screen
                                     ->parameters([
                                         'driver_id' => $model->get('id'),
                                     ]),
+
+                            Button::make('Задачи')
+                                    ->method('tasks')
+                                    ->class('tableBtn')
+                                    //->type(Color::PRIMARY())
+                                    ->parameters([
+                                        'driver_id' => $model->get('id'),
+                                    ]),
                         ])->autoWidth();
                     }),
             ])
@@ -145,4 +153,6 @@ class DriversScreen extends Screen
 
         return redirect()->route('platform.driverTaskAdd', ['driver_id' => $userId]);
     }
+
+    
 }
