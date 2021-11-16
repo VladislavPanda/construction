@@ -10,6 +10,8 @@ use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Actions\Button;
 use Orchid\Support\Color;
 use Illuminate\Http\Request;
+use Orchid\Screen\Actions\ModalToggle;
+use Orchid\Screen\Fields\TextArea;
 use App\Models\Task;
 use App\Services\AuthHandler;
 //use App\Http\Controllers\WorkerController;
@@ -34,7 +36,7 @@ class DriverTasksScreen extends Screen
         $driverId = AuthHandler::getCurrentUser();
 
         return [
-            'tasks' => Task::where('driver_id', $driverId)->paginate()
+            'tasks' => Task::where('driver_id', $driverId)->where('status', 'В работе')->paginate()
         ];
     }
 
@@ -87,32 +89,54 @@ class DriverTasksScreen extends Screen
                         return Str::limit($task->end_date);
                 }),
 
-                /*TD::make('update', '')
+                TD::make('', '')
                     //->width('200')
                     ->render(function (Task $task) {
                         return Group::make([
-                            Button::make('Редактировать')
-                                    ->method('updateSpeciality')
+                            Button::make('Выполнено')
+                                    ->method('done')
                                     ->type(Color::PRIMARY())
+                                    //->class('longDocumentBtn')
                                     ->parameters([
-                                        'id' => $speciality->id,
+                                        'id' => $task->id,
                                     ]),
+
+                            ModalToggle::make('Отклонить')
+                                    ->type(Color::PRIMARY())
+                                    //->class('longDocumentBtn')
+                                    ->modal('reject_reason_modal')
+                                    ->parameters([
+                                        'id' => $task->id,
+                                    ])
+                                    ->method('reject')
                         ])->autoWidth();
                     }),
+            ]),
 
-                TD::make('delete', '')
-                    //->width('200')
-                    ->render(function (Task $task) {
-                        return Group::make([
-                            Button::make('Удалить')
-                                    ->method('deleteSpeciality')
-                                    ->type(Color::PRIMARY())
-                                    ->parameters([
-                                        'id' => $speciality->id,
-                                    ]),
-                        ])->autoWidth();
-                    }),*/
-            ])
+            Layout::modal('reject_reason_modal', Layout::rows([
+                TextArea::make('reject_reason')
+                        //->title('Комментарий:')
+                        ->rows(6),
+                //Input::make('toast')
+                    //->title('Messages to display')
+                    //->placeholder('Hello world!')
+                    //->help('The entered text will be displayed on the right side as a toast.')
+                  //  ->required(),
+            ]))->title('Введите причину невыполнения')->applyButton('Отправить')
+            ->closeButton('Закрыть'),
         ];
+    }
+
+    public function done(Request $request){
+        $taskId = $request->get('id');
+
+        dd($taskId);
+    }
+
+    public function reject(Request $request){
+        $taskId = $request->get('id');
+        $rejectReason = $request->get('reject_reason');
+    
+        dd($rejectReason);
     }
 }
