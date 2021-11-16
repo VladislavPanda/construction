@@ -63,7 +63,7 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.salaryView')
                 ->permission('platform.salaryView'),
 
-            Menu::make('Задачи')
+            Menu::make('Мои задачи')
                 ->icon('task')
                 ->route('platform.driverTasks')
                 ->permission('platform.driverTasks'),
@@ -190,10 +190,10 @@ class PlatformProvider extends OrchidServiceProvider
             
             /*ItemPermission::group(__('Сотрудник'))
                 ->addPermission('platform.salaryView', __('Просмотреть зарплату')),
-
+*/
             ItemPermission::group(__('Водитель'))
                 ->addPermission('platform.driverTasks', __('Задачи')),
-
+/*
             ItemPermission::group(__('Прораб'))
                 ->addPermission('platform.foremanTasks', __('Задачи'))*/
         ];
