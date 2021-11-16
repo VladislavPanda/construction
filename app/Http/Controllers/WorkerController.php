@@ -7,10 +7,6 @@ use App\Models\Worker;
 
 class WorkerController extends Controller
 {
-    private static $specialitiesCodes = [
-
-    ]; 
-
     // Сохранение сведений
     public function store($workerData){
         // Обработка специальностей

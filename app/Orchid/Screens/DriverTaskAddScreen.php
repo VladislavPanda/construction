@@ -11,7 +11,7 @@ use Orchid\Screen\Actions\Button;
 use Orchid\Support\Color;
 use Illuminate\Http\Request;
 use Orchid\Support\Facades\Alert;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\TaskController;
 
 class DriverTaskAddScreen extends Screen
 {
@@ -79,13 +79,27 @@ class DriverTaskAddScreen extends Screen
 
                     DateTimer::make('end_date')
                         ->title('Конечная дата:')
-                        ->format('d-m-Y'),    
+                        ->format('d-m-Y')
+                        ->required(),    
 
                     Button::make('Добавить')
-                        ->method('submitSpeciality')
-                        ->type(Color::DEFAULT()),
+                        ->method('submit')
+                        ->type(Color::DEFAULT())
+                        ->parameters([
+                            'driver_id' => self::$driverId
+                        ]),
                 ])
             ])
         ];
+    }
+
+    public function submit(Request $request){
+        $flag = false;
+        $driverTask = $request->all();
+
+        $controller = new TaskController();
+        $flag = $controller->store($driverTask);
+
+        if($flag === true) Alert::warning('Задача успешно добавлена');
     }
 }

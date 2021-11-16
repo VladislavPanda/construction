@@ -29,7 +29,7 @@ class DriversScreen extends Screen
      * @return array
      */
     public function query(): array
-    {
+    {   
         return [
             'drivers' => User::whereHas('roles', function ($query) {
                 $query->where('slug', 'driver');
