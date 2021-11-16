@@ -96,14 +96,6 @@ class DriversScreen extends Screen
                     //->width('200')
                     ->render(function (User $user) {
                         return Group::make([
-                            Button::make('Редактировать')
-                                    ->method('update')
-                                    //->type(Color::PRIMARY())
-                                    ->class('tableBtn')
-                                    ->parameters([
-                                        'driver_id' => $user->id,
-                                    ]),
-
                             Button::make('Назначить задачу')
                                     ->method('setTask')
                                     ->class('tableBtn')
