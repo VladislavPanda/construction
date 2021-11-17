@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Status;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\StatusController;
 
 class DriversScreen extends Screen
 {

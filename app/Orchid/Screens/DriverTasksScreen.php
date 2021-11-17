@@ -103,7 +103,27 @@ class DriverTasksScreen extends Screen
                     ->render(function (Task $task) {
                         return Str::limit($task->reject_reason);
                 }),
+
+                TD::make('', '')
+                    //->width('200')
+                    ->render(function (Task $task) {
+                        return Group::make([
+                            Button::make('Редактировать')
+                                    ->method('update')
+                                    ->type(Color::PRIMARY())
+                                    //->class('longDocumentBtn')
+                                    ->parameters([
+                                        'id' => $task->id,
+                                    ]),
+                        ])->autoWidth();
+                    }),
             ]),
         ];
+    }
+
+    public function update(Request $request){
+        $taskId = $request->get('id');
+
+        return redirect()->route('platform.driverTaskUpdate', ['task_id' => $taskId]);
     }
 }

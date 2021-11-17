@@ -182,7 +182,8 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.drivers', __('Список водителей'))
                 ->addPermission('platform.foremen', __('Список прорабов'))
                 ->addPermission('platform.driverTaskAdd', __('Назначить задачу водителю'))
-                ->addPermission('platform.driverTasks', __('Задачи водителя')),
+                ->addPermission('platform.driverTasks', __('Задачи водителя'))
+                ->addPermission('platform.driverTaskUpdate', __('Редактировать задачу водителя')),
 
                 
                 //->addPermission('platform.driverInfoAdd', __('Добавить сведения о водителе'))

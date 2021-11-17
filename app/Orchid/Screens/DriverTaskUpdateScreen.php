@@ -12,18 +12,18 @@ use Orchid\Support\Color;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Http\Request;
 use Orchid\Support\Facades\Alert;
-use App\Http\Controllers\TaskController;
+use App\http\Controllers\TaskController;
 
-class DriverTaskAddScreen extends Screen
+class DriverTaskUpdateScreen extends Screen
 {
     /**
      * Display header name.
      *
      * @var string
      */
-    public $name = 'Назначить задачу водителю';
-    public $permission = 'platform.driverTaskAdd';
-    private static $driverId;
+    public $name = 'Редактировать задачу';
+    public $permission = 'platform.driverTaskUpdate';
+    private static $taskId;
 
     /**
      * Query data.
@@ -32,10 +32,21 @@ class DriverTaskAddScreen extends Screen
      */
     public function query(): array
     {
-        $driverId = $_GET['driver_id']; 
-        self::$driverId = $driverId;
+        $task = [];
+        $taskId = $_GET['task_id'];
+        self::$taskId = $taskId;
 
-        return [];
+        $controller = new TaskController();
+        $task = $controller->getCurrentTask($taskId);
+
+        return [
+            'id' => $task->id,
+            'address' => $task->address,
+            'title' => $task->title,
+            'description' => $task->description,
+            'start_date' => $task->start_date,
+            'end_date' => $task->end_date
+        ];
     }
 
     /**
@@ -83,11 +94,11 @@ class DriverTaskAddScreen extends Screen
                         ->required()
                         ->available([ ['from' => Date::today(), "to" => Date::maxValue()] ]),    
 
-                    Button::make('Добавить')
+                    Button::make('Редактировать')
                         ->method('submit')
                         ->type(Color::DEFAULT())
                         ->parameters([
-                            'driver_id' => self::$driverId
+                            'id' => self::$taskId
                         ]),
                 ])
             ])
@@ -96,11 +107,11 @@ class DriverTaskAddScreen extends Screen
 
     public function submit(Request $request){
         $flag = false;
-        $driverTask = $request->all();
+        $updatedTask = $request->all();
 
         $controller = new TaskController();
-        $flag = $controller->store($driverTask);
-
-        if($flag === true) Alert::warning('Задача успешно добавлена');
+        $flag = $controller->update($updatedTask);
+        
+        if($flag === true) Alert::warning('Задача была успешно отредактирована'); 
     }
 }
