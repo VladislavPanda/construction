@@ -13,9 +13,11 @@ class WorkerController extends Controller
         $specialitiesList = [];
         $currentSpeciality = '';
 
+        // Получение списка специальностей
         $specialityController = new SpecialityController();
         $specialitiesList = $specialityController->getSpecialities();
 
+        // Сохранение текущей специальности
         foreach($specialitiesList as $key => $value){
             if($workerData['speciality'][0] == $value['id']) $currentSpeciality = $value['title'];
         }
