@@ -16,16 +16,20 @@ class ProjectController extends Controller
         $specialitiesList = [];
 
         // Получение названий специальностей из кодов
-        $speciality = new Speciality();
+        $speciality = new SpecialityController();
         $specialitiesList = $speciality->getSpecialities();
         
-        
+        foreach($project['jobs'] as $key => &$value){
+            foreach($specialitiesList as $k => $v){
+                if($value['Работа'] == $v['id']) $value['Работа'] = $v['title'];
+            }
+        }
 
         // Преобразование массива в json
         $project['jobs'] = json_encode(array_values($project['jobs']), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
-        Project::create($project);       
+        Project::create($project);
 
-        return $flag;
+        return true;
     } 
 }
