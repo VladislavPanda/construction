@@ -72,13 +72,13 @@ class ProjectAddScreen extends Screen
                         ->format('d-m-Y')
                         ->required()
                         ->available([ ['from' => Date::today(), "to" => Date::maxValue()] ]),
-
+*/
                     DateTimer::make('end_date')
-                        ->title('Конечная дата:')
+                        ->title('Дата сдачи:')
                         ->format('d-m-Y')
                         ->required()
                         ->available([ ['from' => Date::today(), "to" => Date::maxValue()] ]),    
-*/
+
                         Matrix::make('jobs')
                         ->columns([
                             'Работа',
