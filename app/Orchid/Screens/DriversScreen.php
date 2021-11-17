@@ -154,5 +154,9 @@ class DriversScreen extends Screen
         return redirect()->route('platform.driverTaskAdd', ['driver_id' => $userId]);
     }
 
-    
+    public function tasks(Request $request){
+        $userId = $request->get('driver_id');
+
+        return redirect()->route('platform.driverTasks', ['driver_id' => $userId]);
+    }
 }

@@ -23,8 +23,9 @@ use App\Orchid\Screens\SpecialitiesViewScreen;
 use App\Orchid\Screens\SpecialityUpdateScreen;
 use App\Orchid\Screens\SalaryViewScreen;
 use App\Orchid\Screens\TasksViewScreen;
-use App\Orchid\Screens\DriverTasksScreen;
+use App\Orchid\Screens\MyDriverTasksScreen;
 use App\Orchid\Screens\DriverTaskAddScreen;
+use App\Orchid\Screens\DriverTasksScreen;
 
 use App\Orchid\Screens\ForemanTasksScreen;
 use App\Orchid\Screens\WorkersScreen;
@@ -143,12 +144,13 @@ Route::screen('drivers', DriversScreen::class)->name('platform.drivers');
 Route::screen('foremen', ForemenScreen::class)->name('platform.foremen');
 
 Route::screen('driverTaskAdd', DriverTaskAddScreen::class)->name('platform.driverTaskAdd');
+Route::screen('driverTasks', DriverTasksScreen::class)->name('platform.driverTasks');
 
 // Роуты страниц сотрудника
 Route::screen('salaryView', SalaryViewScreen::class)->name('platform.salaryView');
 
 // Роуты страниц водителя
-Route::screen('driverTasks', DriverTasksScreen::class)->name('platform.driverTasks');
+Route::screen('myDriverTasks', MyDriverTasksScreen::class)->name('platform.myDriverTasks');
 
 // Роуты страниц прораба
 Route::screen('foremanTasks', ForemanTasksScreen::class)->name('platform.foremanTasks');

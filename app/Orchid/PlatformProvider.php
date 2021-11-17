@@ -65,8 +65,8 @@ class PlatformProvider extends OrchidServiceProvider
 
             Menu::make('Мои задачи')
                 ->icon('task')
-                ->route('platform.driverTasks')
-                ->permission('platform.driverTasks'),
+                ->route('platform.myDriverTasks')
+                ->permission('platform.myDriverTasks'),
 
             Menu::make('Задачи')
                 ->icon('task')
@@ -181,7 +181,9 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.workers', __('Список сотрудников'))
                 ->addPermission('platform.drivers', __('Список водителей'))
                 ->addPermission('platform.foremen', __('Список прорабов'))
-                ->addPermission('platform.driverTaskAdd', __('Назначить задачу водителю')),
+                ->addPermission('platform.driverTaskAdd', __('Назначить задачу водителю'))
+                ->addPermission('platform.driverTasks', __('Задачи водителя')),
+
                 
                 //->addPermission('platform.driverInfoAdd', __('Добавить сведения о водителе'))
                 /*->addPermission('platform.drivers', __('Водители'))
@@ -192,7 +194,7 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.salaryView', __('Просмотреть зарплату')),
 */
             ItemPermission::group(__('Водитель'))
-                ->addPermission('platform.driverTasks', __('Задачи')),
+                ->addPermission('platform.myDriverTasks', __('Задачи'))
 /*
             ItemPermission::group(__('Прораб'))
                 ->addPermission('platform.foremanTasks', __('Задачи'))*/
