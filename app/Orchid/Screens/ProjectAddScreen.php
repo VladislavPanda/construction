@@ -72,7 +72,8 @@ class ProjectAddScreen extends Screen
                         ->format('d-m-Y')
                         ->required()
                         ->available([ ['from' => Date::today(), "to" => Date::maxValue()] ]),
-*/
+                    */
+                    
                     DateTimer::make('end_date')
                         ->title('Дата сдачи:')
                         ->format('d-m-Y')
