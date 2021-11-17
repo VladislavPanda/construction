@@ -80,7 +80,7 @@ class ProjectAddScreen extends Screen
                         ->required()
                         ->available([ ['from' => Date::today(), "to" => Date::maxValue()] ]),    
 
-                        Matrix::make('jobs')
+                    Matrix::make('jobs')
                         ->columns([
                             'Работа',
                             'Количество часов',

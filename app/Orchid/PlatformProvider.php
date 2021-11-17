@@ -78,6 +78,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.projectAdd')
                 ->permission('platform.projectAdd'),
 
+            Menu::make('Объекты')
+                ->icon('building')
+                ->route('platform.projects')
+                ->permission('platform.projects'),
+
             /*Menu::make('Example screen')
                 ->icon('monitor')
                 ->route('platform.example')
@@ -189,7 +194,9 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.driverTaskAdd', __('Назначить задачу водителю'))
                 ->addPermission('platform.driverTasks', __('Задачи водителя'))
                 ->addPermission('platform.driverTaskUpdate', __('Редактировать задачу водителя'))
-                ->addPermission('platform.projectAdd', __('Добавить объект')),
+                ->addPermission('platform.projectAdd', __('Добавить объект'))
+                ->addPermission('platform.projects', __('Объекты'))
+                ->addPermission('platform.projectJobs', __('Работы на объекте')),
             
             /*ItemPermission::group(__('Сотрудник'))
                 ->addPermission('platform.salaryView', __('Просмотреть зарплату')),

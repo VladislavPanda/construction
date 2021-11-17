@@ -28,6 +28,8 @@ use App\Orchid\Screens\DriverTaskAddScreen;
 use App\Orchid\Screens\DriverTasksScreen;
 use App\Orchid\Screens\DriverTaskUpdateScreen;
 use App\Orchid\Screens\ProjectAddScreen;
+use App\Orchid\Screens\ProjectsScreen;
+use App\Orchid\Screens\ProjectJobsScreen;
 
 use App\Orchid\Screens\ForemanTasksScreen;
 use App\Orchid\Screens\WorkersScreen;
@@ -149,6 +151,8 @@ Route::screen('driverTaskAdd', DriverTaskAddScreen::class)->name('platform.drive
 Route::screen('driverTasks', DriverTasksScreen::class)->name('platform.driverTasks');
 Route::screen('driverTaskUpdate', DriverTaskUpdateScreen::class)->name('platform.driverTaskUpdate');
 Route::screen('projectAdd', ProjectAddScreen::class)->name('platform.projectAdd');
+Route::screen('projects', ProjectsScreen::class)->name('platform.projects');
+Route::screen('projectJobs', ProjectJobsScreen::class)->name('platform.projectJobs');
 
 // Роуты страниц сотрудника
 Route::screen('salaryView', SalaryViewScreen::class)->name('platform.salaryView');

@@ -32,4 +32,12 @@ class ProjectController extends Controller
 
         return true;
     } 
+
+    public function getProjectJobs($projectId){
+        $jobs = Project::select('jobs')->where('id', $projectId)->get()->toArray();
+
+        $jobs = json_decode($jobs[0]['jobs'], true);
+
+        return $jobs;
+    }
 }
