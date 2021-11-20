@@ -93,7 +93,7 @@ class ForemenScreen extends Screen
                         return Str::limit($user->status);
                 }),
 
-                TD::make('update', '')
+                /*TD::make('update', '')
                     //->width('200')
                     ->render(function (User $user) {
                         return Group::make([
@@ -104,7 +104,7 @@ class ForemenScreen extends Screen
                                         'worker_id' => $user->id,
                                     ]),
                         ])->autoWidth();
-                    }),
+                    }),*/
             ])
         ];
     }

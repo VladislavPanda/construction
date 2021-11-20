@@ -5,32 +5,29 @@ namespace App\Orchid\Screens;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
 use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\TextArea;
-use Orchid\Screen\Fields\DateTimer;
-use Orchid\Screen\Fields\Matrix;
-use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Actions\Button;
 use Orchid\Support\Color;
-use Illuminate\Support\Facades\Date;
-use Illuminate\Http\Request;
+use Orchid\Screen\Fields\Select;
+use Orchid\Screen\Fields\DateTimer;
 use Orchid\Support\Facades\Alert;
+use Illuminate\Support\Facades\Date;
+use Orchid\Screen\Fields\TextArea;
+use Orchid\Screen\Fields\Group;
+use Orchid\Screen\Fields\Matrix;
+use Illuminate\Http\Request;
+
 use App\Http\Controllers\ProjectController;
-use App\Models\User;
 
-use App\Models\Speciality;
-
-class ProjectAddScreen extends Screen
+class ProjectUpdateScreen extends Screen
 {
     /**
      * Display header name.
      *
      * @var string
      */
-    public $name = 'Добавить объект';
-    public $permission = 'platform.projectAdd';
-    private static $foremen;
+    public $name = 'Редактировать объект';
+    public $permission = 'platform.projectUpdate';
     private static $projectId;
-    private static $foremanId;
 
     /**
      * Query data.
@@ -39,16 +36,23 @@ class ProjectAddScreen extends Screen
      */
     public function query(): array
     {
-        $foremen = User::whereHas('roles', function ($query) {
-            $query->where('slug', 'foreman');
-        })->get()->toArray();
+        $project = [];
+        $jobs = [];
+        $projectId = $_GET['project_id'];
+        self::$projectId = $projectId;
+        
+        $controller = new ProjectController();
+        $project = $controller->getUpdatedProject($projectId);
 
-        foreach($foremen as $key => $value){
-            self::$foremen[$value['surname'] . " " . $value['first_name'] . " " . $value['patronymic']] = $value['surname'] . " " . $value['first_name'] . " " . $value['patronymic'];
-        }
+        $jobs = json_decode($project['jobs'], true);
 
         return [
-            'foremen' => $foremen
+            'address' => $project->address,
+            'description' => $project->description,
+            'end_date' => $project->end_date,
+            'status' => $project->status,
+            'foreman' => $project->foreman,
+            'jobs' => $jobs,
         ];
     }
 
@@ -85,30 +89,26 @@ class ProjectAddScreen extends Screen
                         ->title('Дата сдачи:')
                         ->format('d-m-Y')
                         ->required()
-                        ->available([ ['from' => Date::today(), "to" => Date::maxValue()] ]), 
+                        ->available([ ['from' => Date::today(), "to" => Date::maxValue()] ]),    
 
-                    Select::make('foreman')
-                        ->title('Назначить прораба')
-                        ->options(self::$foremen)
-                        ->required(),
-                        //->fromModel(Speciality::class, 'title'),*/
-                    
-                    /*Matrix::make('jobs')
+                    Matrix::make('jobs')
                         ->columns([
                             'Работа',
                             'Количество часов',
                         ])
                         ->title('Список работ')
                         ->fields([
-                            'Работа' => Select::make('category')
-                                                ->fromModel(Speciality::class, 'title'),
+                            'jobs',
                             'Количество часов' => Input::make()->type('number')->min(0),
                         ])
-                        ->required(),*/
+                        ->required(),
 
-                    Button::make('Добавить')
+                    Button::make('Редактировать')
                         ->method('submit')
                         ->type(Color::DEFAULT())
+                        ->parameters([
+                            'id' => self::$projectId
+                        ])
                 ])
             ])
         ];
@@ -116,11 +116,11 @@ class ProjectAddScreen extends Screen
 
     public function submit(Request $request){
         $flag = false;
-        $projectData = $request->all();
+        $project = $request->all();
 
         $controller = new ProjectController();
-        $flag = $controller->store($projectData);
+        $flag = $controller->update($project);
 
-        if($flag === true) Alert::warning('Объект успешно сохранён');
+        if($flag === true) Alert::warning('Запись успешно отредактирована');
     }
 }

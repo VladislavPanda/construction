@@ -96,14 +96,14 @@ class ProjectsScreen extends Screen
                                         'id' => $project->id,
                                     ]),
 
-			                Button::make('Назначить прораба')
+			                /*Button::make('Назначить прораба')
                                     ->method('setForeman')
                                     //->type(Color::PRIMARY())
                                     ->class('shortBtn')
                                     ->parameters([
                                         'id' => $project->id,
                                         //'pageId' => self::$page
-                                    ]),
+                                    ]),*/
 
                             Button::make('Редактировать')
                                     ->method('update')
@@ -125,8 +125,15 @@ class ProjectsScreen extends Screen
         return redirect()->route('platform.projectJobs', ['project_id' => $projectId]);
     }
 
-    public function setForeman(Request $request){
+    /*public function setForeman(Request $request){
         $projectId = $request->get('id');
-        
+
+        return redirect()->route('platform.projectForemanSet', ['project_id' => $projectId]);
+    }*/
+
+    public function update(Request $request){
+        $projectId = $request->get('id');
+
+        return redirect()->route('platform.projectUpdate', ['project_id' => $projectId]);
     }
 }

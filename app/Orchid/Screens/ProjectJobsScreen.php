@@ -23,12 +23,12 @@ class ProjectJobsScreen extends Screen
      */
     public function query(): array
     {
-        $projectId = $_GET['project_id'];
+        /*$projectId = $_GET['project_id'];
         $controller = new ProjectController();
-        $jobs = $controller->getProjectJobs($projectId);
+        $jobs = $controller->getProjectJobs($projectId);*/
 
         return [
-            'jobs' => $jobs
+            //'jobs' => $jobs
         ];
     }
 
@@ -50,9 +50,9 @@ class ProjectJobsScreen extends Screen
     public function layout(): array
     {
         return [
-            Layout::columns([
+            /*Layout::columns([
                 Layout::view('projectJobs', ['jobs' => 'jobs']),
-            ]),
+            ]),*/
         ];
     }
 }
