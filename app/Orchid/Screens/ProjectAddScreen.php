@@ -103,19 +103,6 @@ class ProjectAddScreen extends Screen
                         ->options(self::$foremen)
                         ->required(),
                         //->fromModel(Speciality::class, 'title'),*/
-                    
-                    /*Matrix::make('jobs')
-                        ->columns([
-                            'Работа',
-                            'Количество часов',
-                        ])
-                        ->title('Список работ')
-                        ->fields([
-                            'Работа' => Select::make('category')
-                                                ->fromModel(Speciality::class, 'title'),
-                            'Количество часов' => Input::make()->type('number')->min(0),
-                        ])
-                        ->required(),*/
 
                     Button::make('Добавить')
                         ->method('submit')
