@@ -58,20 +58,20 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.driver')
                 ->permission('platform.workerAdd'),*/
 
-            Menu::make('Просмотреть зарплату')
+            /*Menu::make('Просмотреть зарплату')
                 ->icon('money')
                 ->route('platform.salaryView')
-                ->permission('platform.salaryView'),
+                ->permission('platform.salaryView'),*/
 
             Menu::make('Мои задачи')
                 ->icon('task')
                 ->route('platform.myDriverTasks')
                 ->permission('platform.myDriverTasks'),
 
-            Menu::make('Задачи')
-                ->icon('task')
-                ->route('platform.foremanTasks')
-                ->permission('platform.foremanTasks'),
+            Menu::make('Текущий объект')
+                ->icon('building')
+                ->route('platform.myObject')
+                ->permission('platform.myObject'),
 
             Menu::make('Добавить объект')
                 ->icon('plus')
@@ -82,6 +82,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('building')
                 ->route('platform.projects')
                 ->permission('platform.projects'),
+
+            Menu::make('Мои работы')
+                ->icon('task')
+                ->route('platform.workerJobs')
+                ->permission('platform.workerJobs'),
 
             /*Menu::make('Example screen')
                 ->icon('monitor')
@@ -200,16 +205,15 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.projectForemanSet', __('Назначить прораба'))
                 ->addPermission('platform.projectUpdate', __('Редактировать объект'))
                 ->addPermission('platform.projectJobsAdd', __('Добавить работы')),
-
             
-            /*ItemPermission::group(__('Сотрудник'))
-                ->addPermission('platform.salaryView', __('Просмотреть зарплату')),
-*/
+            ItemPermission::group(__('Сотрудник'))
+                ->addPermission('platform.workerJobs', __('Мои работы')),
+
             ItemPermission::group(__('Водитель'))
-                ->addPermission('platform.myDriverTasks', __('Задачи'))
-/*
+                ->addPermission('platform.myDriverTasks', __('Задачи')),
+
             ItemPermission::group(__('Прораб'))
-                ->addPermission('platform.foremanTasks', __('Задачи'))*/
+                ->addPermission('platform.myObject', __('Текущий объект'))
         ];
     }
 }
