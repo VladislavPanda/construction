@@ -4,15 +4,18 @@ namespace App\Orchid\Screens;
 
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
-use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\Matrix;
+use Orchid\Screen\Fields\TextArea;
+use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Actions\Button;
 use Orchid\Support\Color;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Http\Request;
+use Orchid\Support\Facades\Alert;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\JobController;
+use App\Models\User;
 use App\Models\Job;
 use App\Models\Speciality;
 
@@ -26,6 +29,7 @@ class ProjectJobsAddScreen extends Screen
     public $name = 'Добавить работы';
     public $permission = 'platform.projectJobsAdd';
     private static $projectId;
+    private static $workers;
 
     /**
      * Query data.
@@ -34,10 +38,22 @@ class ProjectJobsAddScreen extends Screen
      */
     public function query(): array
     {
+        $workersList = [];
         $projectId = $_GET['project_id'];
         self::$projectId = $projectId;
 
-        return [];
+        $workers = User::select('surname', 'first_name', 'patronymic', 'speciality')->whereHas('roles', function ($query) {
+            $query->where('slug', 'worker');
+        })->get()->toArray();
+
+        foreach($workers as $key => $value){
+            $keys = $value['surname'] . " " . $value['first_name'] . " " . $value['patronymic'] . " - " . $value['speciality'];
+            self::$workers[$keys] = $value['surname'] . " " . $value['first_name'] . " " . $value['patronymic'] . " - " . $value['speciality'];
+        }
+
+        return [
+            'worker' => self::$workers
+        ];
     }
 
     /**
@@ -60,23 +76,41 @@ class ProjectJobsAddScreen extends Screen
         return [
             Layout::columns([
                 Layout::rows([
-                    Matrix::make('jobs')
-                        ->columns([
-                            'Работа',
-                            'Количество часов',
-                            'Сотрудники'
-                        ])
-                        ->title('Список работ')
-                        ->fields([
-                            'Работа' => Select::make('category')
-                                                ->fromModel(Speciality::class, 'title'),
-                            'Количество часов' => Input::make()->type('number')->min(0),
-                            //'Сотрудники' => 
-                        ])
-                        ->maxRows(1)
+                    TextArea::make('description')
+                        ->title('Описание')
+                        ->rows(6)
                         ->required(),
+                    
+                    DateTimer::make('date')
+                        ->title('Дата завершения:')
+                        ->format('d-m-Y')
+                        ->required()
+                        ->available([ ['from' => Date::today(), "to" => Date::maxValue()] ]), 
+
+                    Select::make('worker')
+                        ->title('Назначить сотрудника')
+                        ->options(self::$workers)
+                        ->required(),
+                        //->fromModel(Speciality::class, 'title'),*/
+
+                    Button::make('Добавить')
+                        ->method('submit')
+                        ->type(Color::DEFAULT())
+                        ->parameters([
+                            'project_id' => self::$projectId
+                        ])
                 ])
             ])
         ];
+    }
+
+    public function submit(Request $request){
+        $flag = false;
+        $job = $request->all();
+
+        $controller = new JobController();
+        $flag = $controller->store($job);
+
+        if($flag === true) Alert::warning('Задача была успешно добавлена');
     }
 }

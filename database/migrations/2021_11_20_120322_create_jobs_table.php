@@ -18,7 +18,12 @@ class CreateJobsTable extends Migration
             $table->unsignedBigInteger('project_id')->nullable();
             $table->foreign('project_id')->on('projects')->references('id');
 
-            $table->json('jobs');
+            $table->text('description');
+            $table->string('date');
+            $table->string('job');
+            $table->unsignedBigInteger('worker_id')->nullable();
+            $table->foreign('worker_id')->on('users')->references('id');
+
             $table->timestamps();
             $table->softDeletes();
         });
