@@ -88,7 +88,7 @@ class ProjectsScreen extends Screen
                     //->width('200')
                     ->render(function (Project $project) {
                         return Group::make([
-                            Button::make('Список работ')
+                            Button::make('Работы на объекте')
                                     ->method('jobs')
                                     //->type(Color::PRIMARY())
                                     ->class('shortBtn')

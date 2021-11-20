@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 use Orchid\Support\Facades\Alert;
 use App\Http\Controllers\ProjectController;
 use App\Models\User;
-
+use App\Models\ProjectForeman;
 use App\Models\Speciality;
 
 class ProjectAddScreen extends Screen
@@ -39,12 +39,23 @@ class ProjectAddScreen extends Screen
      */
     public function query(): array
     {
+        $foremenIDs = [];
+        $projectForemen = ProjectForeman::select('foreman_id')->get()->toArray();
+
+        foreach($projectForemen as $key => $value){
+            $foremenIDs[] = $value['foreman_id'];
+        }   
+
         $foremen = User::whereHas('roles', function ($query) {
             $query->where('slug', 'foreman');
-        })->get()->toArray();
+        })->whereNotIn('id', $foremenIDs)->get()->toArray();
 
-        foreach($foremen as $key => $value){
-            self::$foremen[$value['surname'] . " " . $value['first_name'] . " " . $value['patronymic']] = $value['surname'] . " " . $value['first_name'] . " " . $value['patronymic'];
+        if(!empty($foremen)){
+            foreach($foremen as $key => $value){
+                self::$foremen[$value['surname'] . " " . $value['first_name'] . " " . $value['patronymic']] = $value['surname'] . " " . $value['first_name'] . " " . $value['patronymic'];
+            }
+        }else{
+            self::$foremen = [];
         }
 
         return [

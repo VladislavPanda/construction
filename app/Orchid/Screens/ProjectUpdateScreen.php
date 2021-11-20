@@ -91,7 +91,7 @@ class ProjectUpdateScreen extends Screen
                         ->required()
                         ->available([ ['from' => Date::today(), "to" => Date::maxValue()] ]),    
 
-                    Matrix::make('jobs')
+                    /*Matrix::make('jobs')
                         ->columns([
                             'Работа',
                             'Количество часов',
@@ -101,7 +101,7 @@ class ProjectUpdateScreen extends Screen
                             'jobs',
                             'Количество часов' => Input::make()->type('number')->min(0),
                         ])
-                        ->required(),
+                        ->required(),*/
 
                     Button::make('Редактировать')
                         ->method('submit')
