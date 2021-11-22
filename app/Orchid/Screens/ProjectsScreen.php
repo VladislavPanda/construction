@@ -122,7 +122,8 @@ class ProjectsScreen extends Screen
                                 ->parameters([
                                     'id' => $project->id,
                                     //'pageId' => self::$page
-                                ]),
+                                ])
+                                ->rawClick(),
                         ])->autoWidth();
                     }),
             ])
@@ -153,7 +154,11 @@ class ProjectsScreen extends Screen
 
         $controller = new ProjectController();
         $flag = $controller->close($projectId);
-        if($flag === true) Alert::warning('Объект был успешно закрыт');
+        if($flag !== false){
+            Alert::warning('Объект был успешно закрыт');
+
+            return $flag->download('report_' . $projectId . '.pdf');
+        }
         else Alert::warning('Ошибка завершения. На объекте выполнены не все работы');
     }
 }

@@ -9,6 +9,7 @@ use App\Models\Speciality;
 use App\Models\ProjectForeman;
 use App\Models\User;
 use App\Models\Job;
+use PDF;
 
 class ProjectController extends Controller
 {
@@ -83,8 +84,11 @@ class ProjectController extends Controller
         else{ 
             $project = Project::find($projectId);
             $project->update(['status' => self::$statuses['closed']]);
-        
-            return true;
+
+            $pdf = PDF::loadView('report', compact(['project']));
+            $pdf->save('project_' . $projectId . '.pdf');
+                    
+            return $pdf;
         }
     }
 
