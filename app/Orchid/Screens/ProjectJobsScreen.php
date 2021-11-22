@@ -13,6 +13,7 @@ use Orchid\Screen\TD;
 use Illuminate\Support\Str;
 use Orchid\Support\Color;
 use Illuminate\Http\Request;
+use Orchid\Support\Facades\Alert;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\JobController;
 use App\Models\Job;
@@ -124,8 +125,17 @@ class ProjectJobsScreen extends Screen
                         return Group::make([
                             Button::make('Редактировать')
                                     ->method('update')
-                                    ->type(Color::PRIMARY())
-                                    //->class('shortBtn')
+                                    //->type(Color::PRIMARY())
+                                    ->class('shortBtn')
+                                    ->parameters([
+                                        'id' => $job->id,
+                                        //'pageId' => self::$page
+                                    ]),
+
+                            Button::make('Отменить')
+                                    ->method('cancel')
+                                    //->type(Color::PRIMARY())
+                                    ->class('shortBtn')
                                     ->parameters([
                                         'id' => $job->id,
                                         //'pageId' => self::$page
@@ -146,5 +156,15 @@ class ProjectJobsScreen extends Screen
         $jobId = $request->get('id');
 
         return redirect()->route('platform.projectJobUpdate', ['job_id' => $jobId]);
+    }
+
+    public function cancel(Request $request){
+        $flag = false;
+        $jobId = $request->get('id');
+
+        $controller = new JobController();
+        $flag = $controller->cancel($jobId);
+
+        if($flag === true) Alert::warning('Задача была отменена');
     }
 }

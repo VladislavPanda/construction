@@ -16,6 +16,7 @@ use Orchid\Support\Color;
 use Illuminate\Http\Request;
 use App\Models\Job;
 use App\Models\User;
+use App\Models\Project;
 
 class WorkerJobsScreen extends Screen
 {
@@ -60,6 +61,14 @@ class WorkerJobsScreen extends Screen
     {
         return [
             Layout::table('jobs', [
+                TD::make('', 'Адрес')
+                    ->width('400')
+                    ->render(function (Job $job) {
+                        $address = Project::select('address')->where('id', $job->project_id)->get()->toArray();
+                        $address = $address[0]['address'];
+                        return $address;//Str::limit($job->description);
+                }),
+
                 TD::make('', 'Описание')
                     ->width('400')
                     ->render(function (Job $job) {

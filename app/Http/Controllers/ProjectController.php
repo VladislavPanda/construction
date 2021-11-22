@@ -12,6 +12,9 @@ use App\Models\Job;
 
 class ProjectController extends Controller
 {
+    private static $statuses = [
+        'closed' => 'Закрыт'
+    ];
     // Сохраняем запись объекта
     public function store($project){
         $projectId = 1;
@@ -73,4 +76,13 @@ class ProjectController extends Controller
 
         return $project;
     }*/
+
+    public function close($projectId){
+        $flag = false;
+        $project = Project::find($projectId);
+
+        $project->update(['status' => self::$statuses['closed']]);
+        
+        return true;
+    }
 }

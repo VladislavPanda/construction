@@ -12,7 +12,8 @@ class JobController extends Controller
     private static $statuses = [
         'set' => 'В работе',
         'done' => 'Выполнено',
-        'rejected' => 'Не выполнено'
+        'rejected' => 'Не выполнено',
+        'cancelled' => 'Отменено'
     ];
 
     public function store($job){
@@ -80,6 +81,15 @@ class JobController extends Controller
 
         $job = Job::find($jobId);
         $job->update(['status' => self::$statuses['rejected'], 'reject_reason' => $rejectReason]);
+        
+        return true;
+    }
+
+    public function cancel($jobId){
+        $flag = false;
+
+        $job = Job::find($jobId);
+        $job->update(['status' => self::$statuses['cancelled']]);
         
         return true;
     }

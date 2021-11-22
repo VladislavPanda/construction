@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Actions\Button;
 use Orchid\Support\Color;
+use Orchid\Support\Facades\Alert;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Http\Controllers\ProjectController;
@@ -89,30 +90,39 @@ class ProjectsScreen extends Screen
                     ->render(function (Project $project) {
                         return Group::make([
                             Button::make('Работы на объекте')
-                                    ->method('jobs')
-                                    //->type(Color::PRIMARY())
-                                    ->class('shortBtn')
-                                    ->parameters([
-                                        'id' => $project->id,
-                                    ]),
+                                ->method('jobs')
+                                //->type(Color::PRIMARY())
+                                ->class('shortBtn')
+                                ->parameters([
+                                    'id' => $project->id,
+                                ]),
 
 			                /*Button::make('Назначить прораба')
-                                    ->method('setForeman')
-                                    //->type(Color::PRIMARY())
-                                    ->class('shortBtn')
-                                    ->parameters([
-                                        'id' => $project->id,
-                                        //'pageId' => self::$page
-                                    ]),*/
+                                ->method('setForeman')
+                                //->type(Color::PRIMARY())
+                                ->class('shortBtn')
+                                ->parameters([
+                                    'id' => $project->id,
+                                    //'pageId' => self::$page
+                                ]),*/
 
                             Button::make('Редактировать')
-                                    ->method('update')
-                                    ->type(Color::PRIMARY())
-                                    ->class('shortBtn')
-                                    ->parameters([
-                                        'id' => $project->id,
-                                        //'pageId' => self::$page
-                                    ]),
+                                ->method('update')
+                                ->type(Color::PRIMARY())
+                                ->class('shortBtn')
+                                ->parameters([
+                                    'id' => $project->id,
+                                    //'pageId' => self::$page
+                                ]),
+
+                            Button::make('Закрыть объект')
+                                ->method('close')
+                                ->type(Color::PRIMARY())
+                                ->class('shortBtn')
+                                ->parameters([
+                                    'id' => $project->id,
+                                    //'pageId' => self::$page
+                                ]),
                         ])->autoWidth();
                     }),
             ])
@@ -135,5 +145,14 @@ class ProjectsScreen extends Screen
         $projectId = $request->get('id');
 
         return redirect()->route('platform.projectUpdate', ['project_id' => $projectId]);
+    }
+
+    public function close(Request $request){
+        $flag = false;
+        $projectId = $request->get('id');
+
+        $controller = new ProjectController();
+        $flag = $controller->close($projectId);
+        if($flag === true) Alert::warning('Объект был успешно закрыт');
     }
 }

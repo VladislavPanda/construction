@@ -96,28 +96,29 @@ class MyDriverTasksScreen extends Screen
                         return Group::make([
                             Button::make('Выполнено')
                                     ->method('done')
-                                    //->type(Color::PRIMARY())
-                                    ->class('shortBtn')
+                                    ->type(Color::PRIMARY())
+                                    //->class('shortBtn')
                                     ->parameters([
                                         'id' => $task->id,
                                     ]),
 
                             ModalToggle::make('Отклонить')
-                                    //->type(Color::PRIMARY())
-                                    ->class('shortBtn')
+                                    ->type(Color::PRIMARY())
+                                    //->class('shortBtn')
                                     ->modal('reject_reason_modal')
                                     ->parameters([
                                         'id' => $task->id,
                                     ])
                                     ->method('reject')
-                        ]);
+                        ])->autowidth();
                     }),
             ]),
 
             Layout::modal('reject_reason_modal', Layout::rows([
                 TextArea::make('reject_reason')
                         //->title('Комментарий:')
-                        ->rows(6),
+                        ->rows(6)
+                        ->required(),
                 //Input::make('toast')
                     //->title('Messages to display')
                     //->placeholder('Hello world!')
