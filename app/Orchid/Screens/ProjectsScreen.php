@@ -154,5 +154,6 @@ class ProjectsScreen extends Screen
         $controller = new ProjectController();
         $flag = $controller->close($projectId);
         if($flag === true) Alert::warning('Объект был успешно закрыт');
+        else Alert::warning('Ошибка завершения. На объекте выполнены не все работы');
     }
 }

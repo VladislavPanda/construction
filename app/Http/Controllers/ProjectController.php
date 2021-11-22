@@ -13,6 +13,7 @@ use App\Models\Job;
 class ProjectController extends Controller
 {
     private static $statuses = [
+        'set' => 'В работе',
         'closed' => 'Закрыт'
     ];
     // Сохраняем запись объекта
@@ -78,11 +79,23 @@ class ProjectController extends Controller
     }*/
 
     public function close($projectId){
-        $flag = false;
-        $project = Project::find($projectId);
-
-        $project->update(['status' => self::$statuses['closed']]);
+        if($this->closeValidator($projectId) === false) return false;
+        else{ 
+            $project = Project::find($projectId);
+            $project->update(['status' => self::$statuses['closed']]);
         
-        return true;
+            return true;
+        }
+    }
+
+    private function closeValidator($projectId){
+        $closeFlag = true;
+        $jobs = Job::select('status')->where('project_id', $projectId)->get()->toArray();
+        
+        foreach($jobs as $key => $value){
+            if(in_array(self::$statuses['set'], $value)) $closeFlag = false;
+        }
+
+        return $closeFlag;
     }
 }
