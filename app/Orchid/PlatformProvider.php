@@ -70,8 +70,8 @@ class PlatformProvider extends OrchidServiceProvider
 
             Menu::make('Текущий объект')
                 ->icon('building')
-                ->route('platform.myObject')
-                ->permission('platform.myObject'),
+                ->route('platform.myProject')
+                ->permission('platform.myProject'),
 
             Menu::make('Добавить объект')
                 ->icon('plus')
@@ -213,7 +213,7 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.myDriverTasks', __('Задачи')),
 
             ItemPermission::group(__('Прораб'))
-                ->addPermission('platform.myObject', __('Текущий объект'))
+                ->addPermission('platform.myProject', __('Текущий объект'))
         ];
     }
 }

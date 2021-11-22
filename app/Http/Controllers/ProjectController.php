@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\AuthHandler;
 use App\Models\Project;
 use App\Models\Speciality;
 use App\Models\ProjectForeman;
@@ -12,32 +13,20 @@ class ProjectController extends Controller
 {
     // Сохраняем запись объекта
     public function store($project){
-        // Нужна проверка, не пустая ли матрица
+        $projectId = 1;
         $flag = false;
         $specialitiesList = [];
         $foremanData = [];
         
-        // Запись в таблицу связей
-        $lastProjectId = Project::latest()->first()->id;
-        $projectId = $lastProjectId + 1;
+        if(Project::exists()){
+            // Запись в таблицу связей
+            $lastProjectId = Project::latest()->first()->id;
+            $projectId = $lastProjectId + 1;
+        }
 
         $foremanData = explode(' ', $project['foreman']);
         $foremanId = User::select('id')->where('surname', $foremanData[0])->get()->toArray();
         $foremanId = $foremanId[0]['id'];
-
-        // Получение названий специальностей из кодов
-        $speciality = new SpecialityController();
-        //$specialitiesList = $speciality->getSpecialities();
-        
-        /*foreach($project['jobs'] as $key => &$value){
-            foreach($specialitiesList as $k => $v){
-                if($value['Работа'] == $v['id']) $value['Работа'] = $v['title'];
-            }
-        }
-
-        // Преобразование массива в json
-        $project['jobs'] = json_encode(array_values($project['jobs']), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-        */
 
         Project::create($project);
         ProjectForeman::create(['project_id' => $projectId, 'foreman_id' => $foremanId]);
@@ -50,7 +39,6 @@ class ProjectController extends Controller
         $token = $updatedProject['_token'];
         unset($updatedProject['_token']);
         $projectId = $updatedProject['id'];
-        //$updatedProject['jobs'] = json_encode($updatedProject['jobs'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
         $project = Project::where('id', $projectId);
         $project->update($updatedProject);       
@@ -70,5 +58,15 @@ class ProjectController extends Controller
         $project = Project::find($projectId);
 
         return $project;
+    }
+
+    public function getMyProject(){
+        $foremanId = AuthHandler::getCurrentUser();
+
+        $project = Project::whereHas('ProjectForemen', function ($query) {
+                $query->where('foreman_id', $foremanId);
+        });
+
+        dd($project);
     }
 }
