@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ChangeColumnWorkerIdToJobsTable extends Migration
+class SetCascadeColumnWorkerIdToJobsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,10 +14,10 @@ class ChangeColumnWorkerIdToJobsTable extends Migration
     public function up()
     {
         Schema::table('jobs', function (Blueprint $table) {
-            $table->dropForeign(['worker_id']);
-
-            /*$table->unsignedBigInteger('worker_id')->nullable();
-            $table->foreign('worker_id')->on('users')->references('id')->onDelete('cascade');*/
+            $table->foreign('worker_id')
+            ->references('id')
+            ->on('users')
+            ->onDelete('cascade');
         });
     }
 
@@ -29,8 +29,7 @@ class ChangeColumnWorkerIdToJobsTable extends Migration
     public function down()
     {
         Schema::table('jobs', function (Blueprint $table) {
-            $table->unsignedBigInteger('worker_id')->nullable();
-            $table->foreign('worker_id')->on('users')->references('id');
+            $table->dropForeign(['worker_id']);
         });
     }
 }
