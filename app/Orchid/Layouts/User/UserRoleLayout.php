@@ -23,7 +23,8 @@ class UserRoleLayout extends Rows
                 ->fromModel(Role::class, 'name')
                 ->multiple()
                 ->title(__('Название роли'))
-                ->help(''),
+                ->help('')
+                ->required(),
         ];
     }
 }

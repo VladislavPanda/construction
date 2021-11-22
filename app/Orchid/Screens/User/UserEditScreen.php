@@ -20,7 +20,9 @@ use Orchid\Screen\Screen;
 use Orchid\Support\Color;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
+use Orchid\Support\Facades\Alert;
 use App\Models\Speciality;
+use App\Services\AuthHandler;
 
 class UserEditScreen extends Screen
 {
@@ -29,7 +31,7 @@ class UserEditScreen extends Screen
      *
      * @var string
      */
-    public $name = 'Создать пользователя';
+    public $name = 'Создать/отредактировать пользователя';
 
     /**
      * Display header description.
@@ -79,15 +81,15 @@ class UserEditScreen extends Screen
     public function commandBar(): array
     {
         return [
-            Button::make(__('Impersonate user'))
+            /*Button::make(__('Impersonate user'))
                 ->icon('login')
                 ->confirm('You can revert to your original state by logging out.')
                 ->method('loginAs')
-                ->canSee($this->user->exists && \request()->user()->id !== $this->user->id),
+                ->canSee($this->user->exists && \request()->user()->id !== $this->user->id),*/
 
-            Button::make(__('Remove'))
+            Button::make(__('Удалить'))
                 ->icon('trash')
-                ->confirm(__('Once the account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.'))
+                ->confirm(__('Внимание, пользователь будет удалён. Хотите продолжить?'))
                 ->method('remove')
                 ->canSee($this->user->exists),
 
@@ -119,7 +121,7 @@ class UserEditScreen extends Screen
                 ->title(__('Пароль'))
                 ->description(__('Убедитесь, что аккаунт использует надёжный длинный пароль'))
                 ->commands(
-                    Button::make(__('Save'))
+                    Button::make(__('Сохранить'))
                         ->type(Color::DEFAULT())
                         ->icon('check')
                         ->canSee($this->user->exists)
@@ -130,7 +132,7 @@ class UserEditScreen extends Screen
                 ->title(__('Личные данные'))
                 ->description(__('Добавьте личные данные пользователя'))
                 ->commands(
-                    Button::make(__('Save'))
+                    Button::make(__('Сохранить'))
                         ->type(Color::DEFAULT())
                         ->icon('check')
                         ->canSee($this->user->exists)
@@ -186,18 +188,22 @@ class UserEditScreen extends Screen
 
         $userData = $request->get('user');
         //$userData['status'] = null;
-
+        //dd($user);
         // Проверяем роли: если это не сотрудник, то убираем специальность
         if($userData['roles'][0] != '3') $userData['speciality'] = null;
         else{ 
             $currentSpeciality = '';
             $specialities = Speciality::all()->toArray();
-
-            foreach($specialities as $key => $value){
-                if($userData['speciality'][0] == $value['id']) $currentSpeciality = $value['title'];
+            if(!isset($userData['speciality'])){
+                Alert::warning('Ошибка, выберите специальность');
+                return;
+            }else{
+                foreach($specialities as $key => $value){
+                    if($userData['speciality'][0] == $value['id']) $currentSpeciality = $value['title'];
+                }
+        
+                $userData['speciality'] = $currentSpeciality;
             }
-    
-            $userData['speciality'] = $currentSpeciality;
         }
 
         if ($user->exists && (string)$userData['password'] === '') {
@@ -230,6 +236,9 @@ class UserEditScreen extends Screen
      */
     public function remove(User $user)
     {
+        // Проверка внешних ключей перед удалением
+        $this->deleteValidator($user);
+
         $user->delete();
 
         Toast::info(__('Пользователь был удалён'));
@@ -249,5 +258,9 @@ class UserEditScreen extends Screen
         Toast::info(__('You are now impersonating this user'));
 
         return redirect()->route(config('platform.index'));
+    }
+
+    private function deleteValidator($user){
+        dd($user->roles);
     }
 }

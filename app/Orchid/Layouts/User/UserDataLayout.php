@@ -9,6 +9,7 @@ use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Layouts\Rows;
 use Orchid\Screen\Fields\Select;
 use App\Models\Speciality;
+use App\Models\User;
 
 class UserDataLayout extends Rows
 {
@@ -19,6 +20,9 @@ class UserDataLayout extends Rows
      */
     public function fields(): array
     {
+        /*$cSpec = User::select('speciality')->where('email', $userData['email'])->get()->toArray();
+        $cSpec = $cSpec[0]['speciality'];*/
+
         return [
             Input::make('user.first_name')
                 ->type('text')

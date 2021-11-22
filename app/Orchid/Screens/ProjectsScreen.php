@@ -32,7 +32,7 @@ class ProjectsScreen extends Screen
     public function query(): array
     {
         return [
-            'projects' => Project::paginate()
+            'projects' => Project::where('status', '!=' , 'Закрыт')->paginate()
         ];
     }
 

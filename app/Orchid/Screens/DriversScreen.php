@@ -154,12 +154,7 @@ class DriversScreen extends Screen
         $flag = false;
         $userId = $request->get('driver_id');
 
-        /*$controller = new TaskController();
-        $flag = $controller->taskValidate($userId);
-
-        if($flag === true) Alert::warning('Водитель уже имеет текущую задачу');
-        else*/ return redirect()->route('platform.driverTaskAdd', ['driver_id' => $userId]);
-        
+        return redirect()->route('platform.driverTaskAdd', ['driver_id' => $userId]);        
     }
 
     public function tasks(Request $request){
