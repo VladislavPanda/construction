@@ -84,4 +84,15 @@ class TaskController extends Controller
 
         return $task;
     }
+
+    // Проверяем, есть ли задачи у водителя
+    public function taskValidate($userId){
+        //$flag = false;
+        $statusTitle = Status::select('title')->where('user_id', $userId)->get()->toArray();
+        if(!empty($statusTitle)){
+            if($statusTitle[0]['title'] == self::$statuses['hasTasks']) return true; 
+        }
+        
+        return false;        
+    }
 }

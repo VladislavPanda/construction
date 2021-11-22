@@ -10,13 +10,14 @@ use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Actions\Button;
+use Orchid\Support\Facades\Alert;
 use Orchid\Support\Color;
 use Orchid\Screen\Repository;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Status;
-use App\Http\Controllers\DriverController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\TaskController;
 
 class DriversScreen extends Screen
 {
@@ -150,9 +151,14 @@ class DriversScreen extends Screen
     }
 
     public function setTask(Request $request){
+        $flag = false;
         $userId = $request->get('driver_id');
 
-        return redirect()->route('platform.driverTaskAdd', ['driver_id' => $userId]);
+        $controller = new TaskController();
+        $flag = $controller->taskValidate($userId);
+
+        if($flag === true) Alert::warning('Водитель уже имеет текущую задачу');
+        else return redirect()->route('platform.driverTaskAdd', ['driver_id' => $userId]);
     }
 
     public function tasks(Request $request){
