@@ -204,7 +204,8 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.projectJobs', __('Работы на объекте'))
                 ->addPermission('platform.projectForemanSet', __('Назначить прораба'))
                 ->addPermission('platform.projectUpdate', __('Редактировать объект'))
-                ->addPermission('platform.projectJobsAdd', __('Добавить работы')),
+                ->addPermission('platform.projectJobsAdd', __('Добавить работы'))
+                ->addPermission('platform.projectJobUpdate', __('Редактировать работу')),
             
             ItemPermission::group(__('Сотрудник'))
                 ->addPermission('platform.workerJobs', __('Мои работы')),

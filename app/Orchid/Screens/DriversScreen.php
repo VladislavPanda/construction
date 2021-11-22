@@ -130,16 +130,16 @@ class DriversScreen extends Screen
                         return Group::make([
                             Button::make('Назначить задачу')
                                     ->method('setTask')
-                                    ->class('shortBtn')
-                                    //->type(Color::PRIMARY())
+                                    //->class('shortBtn')
+                                    ->type(Color::PRIMARY())
                                     ->parameters([
                                         'driver_id' => $model->get('id'),
                                     ]),
 
                             Button::make('Задачи')
                                     ->method('tasks')
-                                    ->class('shortBtn')
-                                    //->type(Color::PRIMARY())
+                                    //->class('shortBtn')
+                                    ->type(Color::PRIMARY())
                                     ->parameters([
                                         'driver_id' => $model->get('id'),
                                     ]),

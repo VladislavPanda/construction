@@ -96,21 +96,21 @@ class MyDriverTasksScreen extends Screen
                         return Group::make([
                             Button::make('Выполнено')
                                     ->method('done')
-                                    ->type(Color::PRIMARY())
-                                    //->class('longDocumentBtn')
+                                    //->type(Color::PRIMARY())
+                                    ->class('shortBtn')
                                     ->parameters([
                                         'id' => $task->id,
                                     ]),
 
                             ModalToggle::make('Отклонить')
-                                    ->type(Color::PRIMARY())
-                                    //->class('longDocumentBtn')
+                                    //->type(Color::PRIMARY())
+                                    ->class('shortBtn')
                                     ->modal('reject_reason_modal')
                                     ->parameters([
                                         'id' => $task->id,
                                     ])
                                     ->method('reject')
-                        ])->autoWidth();
+                        ]);
                     }),
             ]),
 
@@ -144,8 +144,6 @@ class MyDriverTasksScreen extends Screen
         $rejectReason = $request->get('reject_reason');
     
         $controller = new TaskController();
-        $flag = $controller->setReject($taskId, $rejectReason);
-
-        
+        $flag = $controller->setReject($taskId, $rejectReason);   
     }
 }

@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\Speciality;
 use App\Models\ProjectForeman;
 use App\Models\User;
+use App\Models\Job;
 
 class ProjectController extends Controller
 {
@@ -27,6 +28,7 @@ class ProjectController extends Controller
         $foremanData = explode(' ', $project['foreman']);
         $foremanId = User::select('id')->where('surname', $foremanData[0])->get()->toArray();
         $foremanId = $foremanId[0]['id'];
+        $project['user_id'] = $foremanId;
 
         Project::create($project);
         ProjectForeman::create(['project_id' => $projectId, 'foreman_id' => $foremanId]);
@@ -60,13 +62,15 @@ class ProjectController extends Controller
         return $project;
     }
 
-    public function getMyProject(){
+    /*public function getMyProject(){
         $foremanId = AuthHandler::getCurrentUser();
 
-        $project = Project::whereHas('ProjectForemen', function ($query) {
-                $query->where('foreman_id', $foremanId);
-        });
+        $project = Project::where('user_id', $foremanId)->get()->toArray();
+        $project = $project[0];
+        $jobs = Job::where('project_id', $project['id'])->get()->toArray();
 
-        dd($project);
-    }
+        $project['jobs'] = $jobs;
+
+        return $project;
+    }*/
 }

@@ -12,7 +12,16 @@ use Orchid\Screen\TD;
 use Illuminate\Support\Str;
 use Orchid\Support\Color;
 use Illuminate\Http\Request;
+use Orchid\Support\Facades\Alert;
+use Orchid\Screen\Actions\ModalToggle;
+use Orchid\Screen\Fields\TextArea;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\JobController;
+use App\Services\AuthHandler;
+
+use App\Models\Project;
+use App\Models\Job;
+use App\Models\User;
 
 class MyProjectScreen extends Screen
 {
@@ -31,11 +40,14 @@ class MyProjectScreen extends Screen
      */
     public function query(): array
     {
-        $controller = new ProjectController();
-        $controller->getMyProject();
+        $foremanId = AuthHandler::getCurrentUser();
+
+        $project = Project::select('id')->where('user_id', $foremanId)->get()->toArray();
+        $projectId = $project[0]['id'];
 
         return [
-
+            'projectInfo' => Project::where('user_id', $foremanId)->where('status', 'В работе')->get()->toArray(),
+            'jobs' => Job::where('project_id', $projectId)->paginate()
         ];
     }
 
@@ -58,7 +70,7 @@ class MyProjectScreen extends Screen
     {
         return [
             Layout::columns([
-                Layout::view('myProject', ['project' => 'project']),
+                Layout::view('myProject', ['projectInfo' => 'projectInfo']),
             ]),
 
             Layout::table('jobs', [
@@ -108,17 +120,65 @@ class MyProjectScreen extends Screen
                     //->width('200')
                     ->render(function (Job $job) {
                         return Group::make([
-                            Button::make('Редактировать')
+                            /*Button::make('Редактировать')
                                     ->method('update')
                                     ->type(Color::PRIMARY())
                                     //->class('shortBtn')
                                     ->parameters([
                                         'id' => $job->id,
                                         //'pageId' => self::$page
-                                    ]),
+                                    ]),*/
+                            Button::make('Выполнено')
+                                ->method('setDone')
+                                //->type(Color::PRIMARY())
+                                ->class('shortBtn')
+                                ->parameters([
+                                    'id' => $job->id,
+                                    //'pageId' => self::$page
+                                ]),        
+
+                            ModalToggle::make('Отклонить')
+                                //->type(Color::PRIMARY())
+                                ->class('shortBtn')
+                                ->modal('reject_reason_modal')
+                                ->parameters([
+                                    'id' => $job->id,
+                                ])
+                                ->method('reject')
                         ])->autoWidth();
                     }),
-            ])
+            ]),
+
+            Layout::modal('reject_reason_modal', Layout::rows([
+                TextArea::make('reject_reason')
+                        //->title('Комментарий:')
+                        ->rows(6),
+                //Input::make('toast')
+                    //->title('Messages to display')
+                    //->placeholder('Hello world!')
+                    //->help('The entered text will be displayed on the right side as a toast.')
+                  //  ->required(),
+            ]))->title('Введите причину невыполнения')->applyButton('Отправить')
+            ->closeButton('Закрыть'),
         ];
+    }
+
+    public function setDone(Request $request){
+        $flag = false;
+        $jobId = $request->get('id');
+
+        $controller = new JobController();
+        $flag = $controller->setDone($jobId);
+
+        if($flag === true) Alert::warning('Задача отмечена как выполненная');
+    }
+
+    public function reject(Request $request){
+        $flag = false;
+        $jobId = $request->get('id');
+        $rejectReason = $request->get('reject_reason');
+
+        $controller = new JobController();
+        $flag = $controller->setReject($jobId, $rejectReason);   
     }
 }

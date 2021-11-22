@@ -35,6 +35,7 @@ use App\Orchid\Screens\ProjectUpdateScreen;
 use App\Orchid\Screens\ProjectJobsAddScreen;
 use App\Orchid\Screens\WorkerJobsScreen;
 use App\Orchid\Screens\MyProjectScreen;
+use App\Orchid\Screens\JobUpdateScreen;
 
 use App\Orchid\Screens\ForemanTasksScreen;
 use App\Orchid\Screens\WorkersScreen;
@@ -161,6 +162,7 @@ Route::screen('projectJobs', ProjectJobsScreen::class)->name('platform.projectJo
 //Route::screen('projectForemanSet', ProjectForemanSetScreen::class)->name('platform.projectForemanSet');
 Route::screen('projectUpdate', ProjectUpdateScreen::class)->name('platform.projectUpdate');
 Route::screen('projectJobsAdd', ProjectJobsAddScreen::class)->name('platform.projectJobsAdd');
+Route::screen('projectJobUpdate', JobUpdateScreen::class)->name('platform.projectJobUpdate');
 
 // Роуты страниц сотрудника
 Route::screen('workerJobs', WorkerJobsScreen::class)->name('platform.workerJobs');

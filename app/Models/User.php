@@ -64,8 +64,8 @@ class User extends Authenticatable
         'created_at',
     ];
 
-    public function project()
+    /*public function project()
     {
         return $this->hasOne(Project::class);
-    }
+    }*/
 }

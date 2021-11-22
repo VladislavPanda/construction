@@ -141,4 +141,10 @@ class ProjectJobsScreen extends Screen
 
         return redirect()->route('platform.projectJobsAdd', ['project_id' => $projectId]);
     }   
+
+    public function update(Request $request){
+        $jobId = $request->get('id');
+
+        return redirect()->route('platform.projectJobUpdate', ['job_id' => $jobId]);
+    }
 }
