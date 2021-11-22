@@ -58,13 +58,15 @@ class ProjectsScreen extends Screen
                 TD::make('', 'Адрес')
                     ->width('400')
                     ->render(function (Project $project) {
-                        return Str::limit($project->address);
+                        //return Str::limit($project->address);
+                        return view('tableData', ['data' => $project->address]);
                 }),
 
                 TD::make('', 'Описание')
                     ->width('400')
                     ->render(function (Project $project) {
-                        return Str::limit($project->description);
+                        //return Str::limit($project->description);
+                        return view('tableData', ['data' => $project->description]);
                 }),
 
                 TD::make('', 'Дата сдачи')
@@ -80,9 +82,10 @@ class ProjectsScreen extends Screen
                 }),
 
                 TD::make('', 'Прораб')
-                    ->width('400')
+                    ->width('300')
                     ->render(function (Project $project) {
-                        return Str::limit($project->foreman);
+                        //return Str::limit($project->foreman);
+                        return view('tableData', ['data' => $project->foreman]);
                 }),
 
                 TD::make('', '')

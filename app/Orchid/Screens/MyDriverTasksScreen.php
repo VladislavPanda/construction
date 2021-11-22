@@ -75,7 +75,8 @@ class MyDriverTasksScreen extends Screen
                 TD::make('', 'Описание')
                     //->width('400')
                     ->render(function (Task $task) {
-                        return Str::limit($task->description);
+                        return view('tableData', ['data' => $task->description]);
+                        //return Str::limit($task->description);
                 }),
 
                 TD::make('', 'Дата начала')

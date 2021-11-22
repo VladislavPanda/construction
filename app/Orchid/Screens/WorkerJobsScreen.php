@@ -66,13 +66,15 @@ class WorkerJobsScreen extends Screen
                     ->render(function (Job $job) {
                         $address = Project::select('address')->where('id', $job->project_id)->get()->toArray();
                         $address = $address[0]['address'];
-                        return $address;//Str::limit($job->description);
+                        //return $address;//Str::limit($job->description);
+                        return view('tableData', ['data' => $address]);
                 }),
 
                 TD::make('', 'Описание')
                     ->width('400')
                     ->render(function (Job $job) {
-                        return Str::limit($job->description);
+                        //return Str::limit($job->description);
+                        return view('tableData', ['data' => $job->description]);
                 }),
 
                 TD::make('', 'Дата завершения')
