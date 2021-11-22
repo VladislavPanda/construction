@@ -87,11 +87,11 @@ class UserEditScreen extends Screen
                 ->method('loginAs')
                 ->canSee($this->user->exists && \request()->user()->id !== $this->user->id),*/
 
-            Button::make(__('Удалить'))
+            /*Button::make(__('Удалить'))
                 ->icon('trash')
                 ->confirm(__('Внимание, пользователь будет удалён. Хотите продолжить?'))
                 ->method('remove')
-                ->canSee($this->user->exists),
+                ->canSee($this->user->exists),*/
 
             Button::make(__('Сохранить'))
                 ->icon('check')
@@ -260,7 +260,7 @@ class UserEditScreen extends Screen
         return redirect()->route(config('platform.index'));
     }
 
-    private function deleteValidator($user){
-        dd($user->roles);
-    }
+    /*private function deleteValidator($user){
+        
+    }*/
 }
