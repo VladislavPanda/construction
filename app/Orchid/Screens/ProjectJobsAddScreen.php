@@ -18,6 +18,7 @@ use App\Http\Controllers\JobController;
 use App\Models\User;
 use App\Models\Job;
 use App\Models\Speciality;
+use App\Models\Project;
 
 class ProjectJobsAddScreen extends Screen
 {
@@ -30,6 +31,7 @@ class ProjectJobsAddScreen extends Screen
     public $permission = 'platform.projectJobsAdd';
     private static $projectId;
     private static $workers;
+    private static $projectEndDate;
 
     /**
      * Query data.
@@ -41,6 +43,9 @@ class ProjectJobsAddScreen extends Screen
         $workersList = [];
         $projectId = $_GET['project_id'];
         self::$projectId = $projectId;
+
+        $endDate = Project::select('end_date')->where('id', $projectId)->get()->toArray();
+        self::$projectEndDate = $endDate[0]['end_date'];
 
         $workers = User::select('surname', 'first_name', 'patronymic', 'speciality')->whereHas('roles', function ($query) {
             $query->where('slug', 'worker');
@@ -85,7 +90,7 @@ class ProjectJobsAddScreen extends Screen
                         ->title('Дата завершения:')
                         ->format('d-m-Y')
                         ->required()
-                        ->available([ ['from' => Date::today(), "to" => Date::maxValue()] ]), 
+                        ->available([ ['from' => Date::today(), "to" => self::$projectEndDate] ]), 
 
                     Select::make('worker')
                         ->title('Назначить сотрудника')

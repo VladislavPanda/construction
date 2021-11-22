@@ -132,8 +132,8 @@ class ProjectJobsScreen extends Screen
                                         //'pageId' => self::$page
                                     ]),
 
-                            Button::make('Отменить')
-                                    ->method('cancel')
+                            Button::make('Удалить')
+                                    ->method('delete')
                                     //->type(Color::PRIMARY())
                                     ->class('shortBtn')
                                     ->parameters([
@@ -158,13 +158,13 @@ class ProjectJobsScreen extends Screen
         return redirect()->route('platform.projectJobUpdate', ['job_id' => $jobId]);
     }
 
-    public function cancel(Request $request){
+    public function delete(Request $request){
         $flag = false;
         $jobId = $request->get('id');
 
         $controller = new JobController();
-        $flag = $controller->cancel($jobId);
+        $flag = $controller->delete($jobId);
 
-        if($flag === true) Alert::warning('Задача была отменена');
+        if($flag === true) Alert::warning('Задача была удалена');
     }
 }

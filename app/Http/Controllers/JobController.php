@@ -85,12 +85,13 @@ class JobController extends Controller
         return true;
     }
 
-    public function cancel($jobId){
+    public function delete($jobId){
         $flag = false;
 
         $job = Job::find($jobId);
         $job->update(['status' => self::$statuses['cancelled']]);
-        
+        $job->delete();
+
         return true;
     }
 }

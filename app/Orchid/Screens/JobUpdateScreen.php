@@ -15,6 +15,7 @@ use Orchid\Support\Facades\Alert;
 use Orchid\Screen\Fields\Select;
 use App\Http\Controllers\JobController;
 use App\Models\User;
+use App\Models\Project;
 
 class JobUpdateScreen extends Screen
 {
@@ -28,6 +29,7 @@ class JobUpdateScreen extends Screen
     private static $jobId;
     private static $workers;
     private static $currentWorker;
+    private static $projectEndDate;
 
     /**
      * Query data.
@@ -39,10 +41,13 @@ class JobUpdateScreen extends Screen
         $job = [];
         $worker = [];
         $jobId = $_GET['job_id'];
-        self::$jobId = $jobId;
+        self::$jobId = $jobId;        
 
         $controller = new JobController();
         $job = $controller->getUpdatedJob($jobId);
+
+        $endDate = Project::select('end_date')->where('id', $job->project_id)->get()->toArray();
+        self::$projectEndDate = $endDate[0]['end_date'];
 
         $workers = User::select('surname', 'first_name', 'patronymic', 'speciality')->whereHas('roles', function ($query) {
             $query->where('slug', 'worker');
@@ -100,7 +105,7 @@ class JobUpdateScreen extends Screen
                         ->title('Дата выполнения:')
                         ->format('d-m-Y')
                         ->required()
-                        ->available([ ['from' => Date::today(), "to" => Date::maxValue()] ]),
+                        ->available([ ['from' => Date::today(), "to" => self::$projectEndDate] ]),
 
                     Button::make('Редактировать')
                         ->method('submit')
