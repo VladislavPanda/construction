@@ -60,7 +60,7 @@ class ProjectsScreen extends Screen
                     ->render(function (Project $project) {
                         //return Str::limit($project->address);
                         return view('tableData', ['data' => $project->address]);
-                })->sort(),
+                }),
 
                 TD::make('', 'Описание')
                     ->width('400')
@@ -69,11 +69,16 @@ class ProjectsScreen extends Screen
                         return view('tableData', ['data' => $project->description]);
                 }),
 
-                TD::make('', 'Дата сдачи')
+                TD::make('end_date', 'Дата сдачи')
                     ->width('400')
                     ->render(function (Project $project) {
-                        return Str::limit($project->end_date);
-                }),
+                        //return Str::limit($project->end_date);
+                        $date = str_replace('00:00:00', '', $project->end_date);
+                        $date = explode('-', $date);
+                        $date = $date[2] . '-' . $date[1] . '-' . $date[0];
+                        $date = str_replace(' ', '', $date);
+                        return $date;
+                })->sort(),
 
                 TD::make('status', 'Статус')
                     ->width('400')

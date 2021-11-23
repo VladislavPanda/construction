@@ -17,7 +17,7 @@ class Project extends Model
     protected $guarded = [];
 
     protected $allowedSorts = [
-        'address',
+        'end_date',
         'status'
     ];
 

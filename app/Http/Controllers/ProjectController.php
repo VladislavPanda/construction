@@ -24,6 +24,12 @@ class ProjectController extends Controller
         $specialitiesList = [];
         $foremanData = [];
         
+        $eSort = $project['end_date'];
+        $eSort = str_replace('-', '/', $eSort);
+        $eSort = explode('/', $eSort);
+        $eSortNew = $eSort[2] . '/' . $eSort[1] . '/' . $eSort[0];
+        $project['end_date'] = $eSortNew;
+        
         if(Project::exists()){
             // Запись в таблицу связей
             $lastProjectId = Project::latest()->first()->id;
