@@ -17,7 +17,8 @@ class Task extends Model
     protected $guarded = [];
 
     protected $allowedSorts = [
-        'address',
+        'start_date',
+        'end_date',
         'status'
     ];
 }

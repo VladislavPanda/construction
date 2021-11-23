@@ -45,7 +45,12 @@ class ProjectJobsAddScreen extends Screen
         self::$projectId = $projectId;
 
         $endDate = Project::select('end_date')->where('id', $projectId)->get()->toArray();
-        self::$projectEndDate = $endDate[0]['end_date'];
+        //self::$projectEndDate = $endDate[0]['end_date'];
+
+        $eSort = $endDate[0]['end_date'];
+        $eSort = str_replace('-', '/', $eSort);
+        $eSort = explode('/', $eSort);
+        self::$projectEndDate = $eSort[2] . '/' . $eSort[1] . '/' . $eSort[0];
 
         $workers = User::select('surname', 'first_name', 'patronymic', 'speciality')->whereHas('roles', function ($query) {
             $query->where('slug', 'worker');

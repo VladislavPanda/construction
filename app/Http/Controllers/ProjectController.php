@@ -53,6 +53,12 @@ class ProjectController extends Controller
         unset($updatedProject['_token']);
         $projectId = $updatedProject['id'];
 
+        $eSort = $updatedProject['end_date'];
+        $eSort = str_replace('-', '/', $eSort);
+        $eSort = explode('/', $eSort);
+        $eSortNew = $eSort[2] . '/' . $eSort[1] . '/' . $eSort[0];
+        $updatedProject['end_date'] = $eSortNew;
+
         $project = Project::where('id', $projectId);
         $project->update($updatedProject);       
         

@@ -17,7 +17,7 @@ class Job extends Model
     protected $guarded = [];
 
     protected $allowedSorts = [
-        'description',
+        'date',
         'status'
     ];
 }

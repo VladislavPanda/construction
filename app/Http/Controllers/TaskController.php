@@ -23,6 +23,18 @@ class TaskController extends Controller
         $userId = $driverTask['driver_id']; 
         Task::create($driverTask); // Записываем объект задачи
 
+        $sSort = $driverTask['start_date'];
+        $sSort = str_replace('-', '/', $sSort);
+        $sSort = explode('/', $sSort);
+        $sSortNew = $sSort[2] . '/' . $sSort[1] . '/' . $sSort[0];
+        $driverTask['start_date'] = $sSortNew;
+
+        $sSort = $driverTask['end_date'];
+        $sSort = str_replace('-', '/', $sSort);
+        $sSort = explode('/', $sSort);
+        $sSortNew = $sSort[2] . '/' . $sSort[1] . '/' . $sSort[0];
+        $driverTask['end_date'] = $sSortNew;
+
         // Проверка и запись статуса
         $status = Status::where('user_id', $userId)->get()->toArray();
         if(empty($status)) Status::create(['user_id' => $userId, 'title' => self::$statuses['hasTasks']]);

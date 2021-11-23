@@ -25,6 +25,12 @@ class JobController extends Controller
         $surname = explode(' ', $job['worker']);
         $surname = $surname[0];
 
+        $eSort = $job['date'];
+        $eSort = str_replace('-', '/', $eSort);
+        $eSort = explode('/', $eSort);
+        $eSortNew = $eSort[2] . '/' . $eSort[1] . '/' . $eSort[0];
+        $job['date'] = $eSortNew;
+
         $worker = User::select('id')->where('surname', $surname)->get()->toArray();
         $job['worker_id'] = $worker[0]['id'];
         unset($job['worker']);
@@ -52,6 +58,12 @@ class JobController extends Controller
         $worker = User::select('id')->where('surname', $surname)->get()->toArray();
         $updatedJob['worker_id'] = $worker[0]['id'];
         unset($updatedJob['worker']);
+
+        $eSort = $updatedJob['date'];
+        $eSort = str_replace('-', '/', $eSort);
+        $eSort = explode('/', $eSort);
+        $eSortNew = $eSort[2] . '/' . $eSort[1] . '/' . $eSort[0];
+        $updatedJob['date'] = $eSortNew;
 
         $updatedJob['status'] = self::$statuses['set'];
         $updatedJob['reject_reason'] = null;
