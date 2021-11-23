@@ -67,7 +67,7 @@ class DriverTasksScreen extends Screen
                     ->render(function (Task $task) {
                         //return Str::limit($task->address);
                         return view('tableData', ['data' => $task->address]);
-                })->sort(),
+                }),
 
                 TD::make('', 'Название задачи')
                     //->width('400')
@@ -82,17 +82,27 @@ class DriverTasksScreen extends Screen
                         return view('tableData', ['data' => $task->description]);
                 }),
 
-                TD::make('', 'Дата начала')
+                TD::make('start_date', 'Дата начала')
                     //->width('400')
                     ->render(function (Task $task) {
-                        return Str::limit($task->start_date);
-                }),
+                        //return Str::limit($task->start_date);
+                        $date = str_replace('00:00:00', '', $task->start_date);
+                        $date = explode('-', $date);
+                        $date = $date[2] . '-' . $date[1] . '-' . $date[0];
+                        $date = str_replace(' ', '', $date);
+                        return $date;
+                })->sort(),
 
-                TD::make('', 'Дата завершения')
+                TD::make('end_date', 'Дата завершения')
                     //->width('400')
                     ->render(function (Task $task) {
-                        return Str::limit($task->end_date);
-                }),
+                        //return Str::limit($task->end_date);
+                        $date = str_replace('00:00:00', '', $task->end_date);
+                        $date = explode('-', $date);
+                        $date = $date[2] . '-' . $date[1] . '-' . $date[0];
+                        $date = str_replace(' ', '', $date);
+                        return $date;
+                })->sort(),
 
                 TD::make('status', 'Статус')
                     //->width('400')

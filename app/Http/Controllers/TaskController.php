@@ -20,20 +20,20 @@ class TaskController extends Controller
     // Записать задачу в БД
     public function store($driverTask){
         //$currentTasksCnt = 1;
-        $userId = $driverTask['driver_id']; 
-        Task::create($driverTask); // Записываем объект задачи
-
         $sSort = $driverTask['start_date'];
         $sSort = str_replace('-', '/', $sSort);
         $sSort = explode('/', $sSort);
         $sSortNew = $sSort[2] . '/' . $sSort[1] . '/' . $sSort[0];
         $driverTask['start_date'] = $sSortNew;
 
-        $sSort = $driverTask['end_date'];
-        $sSort = str_replace('-', '/', $sSort);
-        $sSort = explode('/', $sSort);
-        $sSortNew = $sSort[2] . '/' . $sSort[1] . '/' . $sSort[0];
-        $driverTask['end_date'] = $sSortNew;
+        $eSort = $driverTask['end_date'];
+        $eSort = str_replace('-', '/', $eSort);
+        $eSort = explode('/', $eSort);
+        $eSortNew = $eSort[2] . '/' . $eSort[1] . '/' . $eSort[0];
+        $driverTask['end_date'] = $eSortNew;
+        
+        $userId = $driverTask['driver_id']; 
+        Task::create($driverTask); // Записываем объект задачи
 
         // Проверка и запись статуса
         $status = Status::where('user_id', $userId)->get()->toArray();
@@ -55,6 +55,18 @@ class TaskController extends Controller
         $taskId = $updatedTask['id'];
         $updatedTask['reject_reason'] = null;
         $updatedTask['status'] = self::$statuses['set'];
+
+        $sSort = $updatedTask['start_date'];
+        $sSort = str_replace('-', '/', $sSort);
+        $sSort = explode('/', $sSort);
+        $sSortNew = $sSort[2] . '/' . $sSort[1] . '/' . $sSort[0];
+        $updatedTask['start_date'] = $sSortNew;
+
+        $eSort = $updatedTask['end_date'];
+        $eSort = str_replace('-', '/', $eSort);
+        $eSort = explode('/', $eSort);
+        $eSortNew = $eSort[2] . '/' . $eSort[1] . '/' . $eSort[0];
+        $updatedTask['end_date'] = $eSortNew;
 
         $task = Task::find($taskId);
         $task->update($updatedTask);

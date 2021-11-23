@@ -39,6 +39,13 @@ class DriverTaskUpdateScreen extends Screen
         $controller = new TaskController();
         $task = $controller->getCurrentTask($taskId);
 
+
+
+        /*$eSort = $endDate[0]['end_date'];
+        $eSort = str_replace('-', '/', $eSort);
+        $eSort = explode('/', $eSort);
+        self::$projectEndDate = $eSort[2] . '/' . $eSort[1] . '/' . $eSort[0];*/
+
         return [
             'id' => $task->id,
             'address' => $task->address,
