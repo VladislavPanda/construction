@@ -39,7 +39,7 @@ class DriverTasksScreen extends Screen
         $driverId = $_GET['driver_id'];
 
         return [
-            'tasks' => Task::where('driver_id', $driverId)->paginate()
+            'tasks' => Task::filters()->where('driver_id', $driverId)->paginate()
         ];
     }
 
@@ -62,11 +62,12 @@ class DriverTasksScreen extends Screen
     {
         return [
             Layout::table('tasks', [
-                TD::make('', 'Адрес')
+                TD::make('address', 'Адрес')
                     //->width('400')
                     ->render(function (Task $task) {
-                        return Str::limit($task->address);
-                }),
+                        //return Str::limit($task->address);
+                        return view('tableData', ['data' => $task->address]);
+                })->sort(),
 
                 TD::make('', 'Название задачи')
                     //->width('400')
@@ -77,7 +78,8 @@ class DriverTasksScreen extends Screen
                 TD::make('', 'Описание')
                     //->width('400')
                     ->render(function (Task $task) {
-                        return Str::limit($task->description);
+                        //return Str::limit($task->description);
+                        return view('tableData', ['data' => $task->description]);
                 }),
 
                 TD::make('', 'Дата начала')
@@ -92,16 +94,17 @@ class DriverTasksScreen extends Screen
                         return Str::limit($task->end_date);
                 }),
 
-                TD::make('', 'Статус')
+                TD::make('status', 'Статус')
                     //->width('400')
                     ->render(function (Task $task) {
                         return Str::limit($task->status);
-                }),
+                })->sort(),
 
                 TD::make('', 'Причина отклонения')
                     //->width('400')
                     ->render(function (Task $task) {
-                        return Str::limit($task->reject_reason);
+                        //return Str::limit($task->reject_reason);
+                        return view('tableData', ['data' => $task->reject_reason]);
                 }),
 
                 TD::make('', '')

@@ -13,4 +13,9 @@ class Driver extends Model
 
     protected $table = 'drivers';
     protected $guarded = [];
+
+    protected $allowedSorts = [
+        'surname',
+        'status'
+    ];
 }

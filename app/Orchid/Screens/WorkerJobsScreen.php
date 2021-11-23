@@ -38,7 +38,7 @@ class WorkerJobsScreen extends Screen
         $workerId = AuthHandler::getCurrentUser();
 
         return [
-            'jobs' => Job::where('worker_id', $workerId)->paginate()
+            'jobs' => Job::filters()->where('worker_id', $workerId)->paginate()
         ];
     }
 
@@ -92,11 +92,11 @@ class WorkerJobsScreen extends Screen
                         return Str::limit($speciality);
                 }),
 
-                TD::make('', 'Статус')
+                TD::make('status', 'Статус')
                     ->width('400')
                     ->render(function (Job $job) {
                         return Str::limit($job->status);
-                }),
+                })->sort(),
 
                 TD::make('', 'Комментарий')
                     ->width('400')

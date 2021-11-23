@@ -13,7 +13,8 @@ class TaskController extends Controller
         'hasTasks' => 'Задачи назначены',
         'done' => 'Выполнено',
         'rejected' => 'Не выполнено',
-        'noTasks' => 'Без задач'
+        'noTasks' => 'Без задач',
+        'set' => 'В работе'
     ];
 
     // Записать задачу в БД
@@ -38,7 +39,10 @@ class TaskController extends Controller
     // Отредактировать задачу
     public function update($updatedTask){
         $flag = false;
+        
         $taskId = $updatedTask['id'];
+        $updatedTask['reject_reason'] = null;
+        $updatedTask['status'] = self::$statuses['set'];
 
         $task = Task::find($taskId);
         $task->update($updatedTask);

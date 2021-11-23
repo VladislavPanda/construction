@@ -42,7 +42,7 @@ class ProjectJobsScreen extends Screen
         self::$projectId = $projectId;
 
         return [
-            'jobs' => Job::where('project_id', $projectId)->paginate()
+            'jobs' => Job::filters()->where('project_id', $projectId)->paginate()
         ];
     }
 
@@ -77,11 +77,11 @@ class ProjectJobsScreen extends Screen
             ]), 
 
             Layout::table('jobs', [
-                TD::make('', 'Описание')
+                TD::make('description', 'Описание')
                     ->width('400')
                     ->render(function (Job $job) {
                         return Str::limit($job->description);
-                }),
+                })->sort(),
 
                 TD::make('', 'Дата завершения')
                     ->width('400')
@@ -107,11 +107,11 @@ class ProjectJobsScreen extends Screen
                         return Str::limit($worker);
                 }),
 
-                TD::make('', 'Статус')
+                TD::make('status', 'Статус')
                     ->width('400')
                     ->render(function (Job $job) {
                         return Str::limit($job->status);
-                }),
+                })->sort(),
 
                 TD::make('', 'Комментарий')
                     ->width('400')

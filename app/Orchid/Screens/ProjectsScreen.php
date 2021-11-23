@@ -32,7 +32,7 @@ class ProjectsScreen extends Screen
     public function query(): array
     {
         return [
-            'projects' => Project::where('status', '!=' , 'Закрыт')->paginate()
+            'projects' => Project::filters()->where('status', '!=' , 'Закрыт')->paginate()
         ];
     }
 
@@ -55,12 +55,12 @@ class ProjectsScreen extends Screen
     {
         return [
             Layout::table('projects', [
-                TD::make('', 'Адрес')
+                TD::make('address', 'Адрес')
                     ->width('400')
                     ->render(function (Project $project) {
                         //return Str::limit($project->address);
                         return view('tableData', ['data' => $project->address]);
-                }),
+                })->sort(),
 
                 TD::make('', 'Описание')
                     ->width('400')
@@ -75,11 +75,11 @@ class ProjectsScreen extends Screen
                         return Str::limit($project->end_date);
                 }),
 
-                TD::make('', 'Статус')
+                TD::make('status', 'Статус')
                     ->width('400')
                     ->render(function (Project $project) {
                         return Str::limit($project->status);
-                }),
+                })->sort(),
 
                 TD::make('', 'Прораб')
                     ->width('300')

@@ -37,7 +37,7 @@ class MyDriverTasksScreen extends Screen
         $driverId = AuthHandler::getCurrentUser();
 
         return [
-            'tasks' => Task::where('driver_id', $driverId)->where('status', 'В работе')->paginate()
+            'tasks' => Task::filters()->where('driver_id', $driverId)->where('status', 'В работе')->paginate()
         ];
     }
 
@@ -60,11 +60,11 @@ class MyDriverTasksScreen extends Screen
     {
         return [
             Layout::table('tasks', [
-                TD::make('', 'Адрес')
+                TD::make('address', 'Адрес')
                     //->width('400')
                     ->render(function (Task $task) {
                         return Str::limit($task->address);
-                }),
+                })->sort(),
 
                 TD::make('', 'Название задачи')
                     //->width('400')
