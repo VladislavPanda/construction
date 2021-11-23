@@ -83,7 +83,7 @@ class WorkersScreen extends Screen
                         return Str::limit($user->speciality);
                 }),
 
-                TD::make('', 'Телефон')
+                TD::make('phone', 'Телефон')
                     ->width('400')
                     ->render(function (User $user) {
                         return Str::limit($user->phone);
