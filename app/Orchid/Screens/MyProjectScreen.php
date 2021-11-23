@@ -47,7 +47,7 @@ class MyProjectScreen extends Screen
 
         return [
             'projectInfo' => Project::where('user_id', $foremanId)->where('status', 'В работе')->get()->toArray(),
-            'jobs' => Job::where('project_id', $projectId)->paginate()
+            'jobs' => Job::filters()->where('project_id', $projectId)->paginate()
         ];
     }
 
@@ -80,11 +80,16 @@ class MyProjectScreen extends Screen
                         return Str::limit($job->description);
                 }),
 
-                TD::make('', 'Дата завершения')
+                TD::make('date', 'Дата завершения')
                     ->width('400')
                     ->render(function (Job $job) {
-                        return Str::limit($job->date);
-                }),
+                        //return Str::limit($job->date);
+                        $date = str_replace('00:00:00', '', $job->date);
+                        $date = explode('-', $date);
+                        $date = $date[2] . '-' . $date[1] . '-' . $date[0];
+                        $date = str_replace(' ', '', $date);
+                        return $date;
+                })->sort(),
 
                 TD::make('', 'Вид работ')
                     ->width('400')

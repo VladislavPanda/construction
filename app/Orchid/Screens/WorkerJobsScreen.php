@@ -77,11 +77,16 @@ class WorkerJobsScreen extends Screen
                         return view('tableData', ['data' => $job->description]);
                 }),
 
-                TD::make('', 'Дата завершения')
+                TD::make('date', 'Дата завершения')
                     ->width('400')
                     ->render(function (Job $job) {
-                        return Str::limit($job->date);
-                }),
+                        //return Str::limit($job->date);
+                        $date = str_replace('00:00:00', '', $job->date);
+                        $date = explode('-', $date);
+                        $date = $date[2] . '-' . $date[1] . '-' . $date[0];
+                        $date = str_replace(' ', '', $date);
+                        return $date;
+                })->sort(),
 
                 TD::make('', 'Вид работ')
                     ->width('400')

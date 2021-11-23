@@ -91,7 +91,7 @@ class DriverTasksScreen extends Screen
                         $date = $date[2] . '-' . $date[1] . '-' . $date[0];
                         $date = str_replace(' ', '', $date);
                         return $date;
-                })->sort(),
+                }),
 
                 TD::make('end_date', 'Дата завершения')
                     //->width('400')

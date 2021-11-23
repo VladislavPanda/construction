@@ -31,7 +31,7 @@ class TaskController extends Controller
         $eSort = explode('/', $eSort);
         $eSortNew = $eSort[2] . '/' . $eSort[1] . '/' . $eSort[0];
         $driverTask['end_date'] = $eSortNew;
-        
+
         $userId = $driverTask['driver_id']; 
         Task::create($driverTask); // Записываем объект задачи
 
@@ -55,18 +55,30 @@ class TaskController extends Controller
         $taskId = $updatedTask['id'];
         $updatedTask['reject_reason'] = null;
         $updatedTask['status'] = self::$statuses['set'];
-
+        
         $sSort = $updatedTask['start_date'];
         $sSort = str_replace('-', '/', $sSort);
         $sSort = explode('/', $sSort);
-        $sSortNew = $sSort[2] . '/' . $sSort[1] . '/' . $sSort[0];
-        $updatedTask['start_date'] = $sSortNew;
 
+        if(strlen($sSort[0]) != 4){
+            $sSortNew = $sSort[2] . '/' . $sSort[1] . '/' . $sSort[0];
+            $updatedTask['start_date'] = $sSortNew;
+        }else{
+            $sSortNew = $sSort[0] . '/' . $sSort[1] . '/' . $sSort[2];
+            $updatedTask['start_date'] = $sSortNew;
+        }
+        
         $eSort = $updatedTask['end_date'];
         $eSort = str_replace('-', '/', $eSort);
         $eSort = explode('/', $eSort);
-        $eSortNew = $eSort[2] . '/' . $eSort[1] . '/' . $eSort[0];
-        $updatedTask['end_date'] = $eSortNew;
+
+        if(strlen($eSort[0]) != 4){
+            $eSortNew = $eSort[2] . '/' . $eSort[1] . '/' . $eSort[0];
+            $updatedTask['end_date'] = $eSortNew;
+        }else{
+            $eSortNew = $eSort[0] . '/' . $eSort[1] . '/' . $eSort[2];
+            $updatedTask['end_date'] = $eSortNew;
+        }
 
         $task = Task::find($taskId);
         $task->update($updatedTask);
