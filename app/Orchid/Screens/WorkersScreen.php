@@ -10,6 +10,8 @@ use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Actions\Button;
 use Orchid\Support\Color;
 use Illuminate\Http\Request;
+use App\Orchid\Filters\PhoneFilter;
+use App\Orchid\Layouts\PhoneSelection;
 use App\Models\User;
 use App\Http\Controllers\WorkerController;
 
@@ -34,7 +36,7 @@ class WorkersScreen extends Screen
         return [
             'workers' => User::whereHas('roles', function ($query) {
                 $query->where('slug', 'worker');
-            })->paginate(),
+            })->filtersApply([PhoneFilter::class])->filters()->paginate(),
             /*'drivers' => Worker::where('speciality', 'Водитель')->paginate(),
             'foremen' => Worker::where('speciality', 'Прораб')->paginate()*/
         ];
@@ -58,6 +60,7 @@ class WorkersScreen extends Screen
     public function layout(): array
     {
         return [
+            PhoneSelection::class,
             Layout::table('workers', [
                 TD::make('', 'Имя')
                     ->width('400')
