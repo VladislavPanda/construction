@@ -24,6 +24,7 @@ class DriverTaskUpdateScreen extends Screen
     public $name = 'Редактировать задачу';
     public $permission = 'platform.driverTaskUpdate';
     private static $taskId;
+    private static $driverId;
 
     /**
      * Query data.
@@ -39,12 +40,7 @@ class DriverTaskUpdateScreen extends Screen
         $controller = new TaskController();
         $task = $controller->getCurrentTask($taskId);
 
-
-
-        /*$eSort = $endDate[0]['end_date'];
-        $eSort = str_replace('-', '/', $eSort);
-        $eSort = explode('/', $eSort);
-        self::$projectEndDate = $eSort[2] . '/' . $eSort[1] . '/' . $eSort[0];*/
+        self::$driverId = $task->driver_id;
 
         return [
             'id' => $task->id,
@@ -74,6 +70,15 @@ class DriverTaskUpdateScreen extends Screen
     public function layout(): array
     {
         return [
+            Layout::rows([
+                Button::make('Назад')
+                            ->method('back')
+                            ->type(Color::DEFAULT())
+                            ->parameters([
+                                'driver_id' => self::$driverId
+                            ]),
+            ]),
+
             Layout::columns([
                 Layout::rows([
                     Input::make('address')
@@ -120,5 +125,11 @@ class DriverTaskUpdateScreen extends Screen
         $flag = $controller->update($updatedTask);
         
         if($flag === true) Alert::warning('Задача была успешно отредактирована'); 
+    }
+
+    public function back(Request $request){
+        $driverId = $request->get('driver_id');
+
+        return redirect()->route('platform.driverTasks', ['driver_id' => $driverId]);
     }
 }

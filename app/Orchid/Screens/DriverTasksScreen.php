@@ -61,6 +61,12 @@ class DriverTasksScreen extends Screen
     public function layout(): array
     {
         return [
+            Layout::rows([
+                Button::make('Назад')
+                            ->method('back')
+                            ->type(Color::DEFAULT())
+            ]),
+
             Layout::table('tasks', [
                 TD::make('address', 'Адрес')
                     //->width('400')
@@ -138,5 +144,9 @@ class DriverTasksScreen extends Screen
         $taskId = $request->get('id');
 
         return redirect()->route('platform.driverTaskUpdate', ['task_id' => $taskId]);
+    }
+
+    public function back(Request $request){
+        return redirect()->route('platform.drivers');
     }
 }
