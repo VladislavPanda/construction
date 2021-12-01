@@ -72,11 +72,14 @@ class ProjectsScreen extends Screen
                 TD::make('end_date', 'Дата сдачи')
                     ->width('400')
                     ->render(function (Project $project) {
+                        $currentDate = date('Y-m-d');
                         //return Str::limit($project->end_date);
                         $date = str_replace('00:00:00', '', $project->end_date);
                         $date = explode('-', $date);
                         $date = $date[2] . '-' . $date[1] . '-' . $date[0];
                         $date = str_replace(' ', '', $date);
+
+                        if($currentDate >= $project->end_date) $date .= '<p> Срок сдачи объекта истёк, обновите дату</p>';
                         return $date;
                 })->sort(),
 
