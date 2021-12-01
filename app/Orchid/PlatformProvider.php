@@ -9,6 +9,7 @@ use Orchid\Platform\ItemPermission;
 use Orchid\Platform\OrchidServiceProvider;
 use Orchid\Screen\Actions\Menu;
 use Orchid\Support\Color;
+use App\Services\MessagesService;
 
 class PlatformProvider extends OrchidServiceProvider
 {
@@ -27,6 +28,8 @@ class PlatformProvider extends OrchidServiceProvider
      */
     public function registerMainMenu(): array
     {
+        $messagesNum = MessagesService::getMessagesNum();
+
         return [
             Menu::make('Добавить специальность')
                 ->icon('plus')
@@ -52,6 +55,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('briefcase')
                 ->route('platform.foremen')
                 ->permission('platform.foremen'),
+
+            Menu::make('Оповещения (' . $messagesNum . ')')
+                ->icon('envelope')
+                ->route('platform.messages')
+                ->permission('platform.messages'),
 
             /*Menu::make('Добавить задачу водителям')
                 ->icon('plus')
@@ -205,7 +213,8 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.projectForemanSet', __('Назначить прораба'))
                 ->addPermission('platform.projectUpdate', __('Редактировать объект'))
                 ->addPermission('platform.projectJobsAdd', __('Добавить работы'))
-                ->addPermission('platform.projectJobUpdate', __('Редактировать работу')),
+                ->addPermission('platform.projectJobUpdate', __('Редактировать работу'))
+                ->addPermission('platform.messages', __('Оповещения')),
             
             ItemPermission::group(__('Сотрудник'))
                 ->addPermission('platform.workerJobs', __('Мои работы')),

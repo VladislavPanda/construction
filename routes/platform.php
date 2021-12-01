@@ -41,7 +41,7 @@ use App\Orchid\Screens\ForemanTasksScreen;
 use App\Orchid\Screens\WorkersScreen;
 use App\Orchid\Screens\DriversScreen;
 use App\Orchid\Screens\ForemenScreen;
-
+use App\Orchid\Screens\MessagesScreen;
 
 /*use App\Orchid\Screens\SalaryAddScreen;
 use App\Orchid\Screens\DriverInfoAddScreen;
@@ -163,6 +163,7 @@ Route::screen('projectJobs', ProjectJobsScreen::class)->name('platform.projectJo
 Route::screen('projectUpdate', ProjectUpdateScreen::class)->name('platform.projectUpdate');
 Route::screen('projectJobsAdd', ProjectJobsAddScreen::class)->name('platform.projectJobsAdd');
 Route::screen('projectJobUpdate', JobUpdateScreen::class)->name('platform.projectJobUpdate');
+Route::screen('messages', MessagesScreen::class)->name('platform.messages');
 
 // Роуты страниц сотрудника
 Route::screen('workerJobs', WorkerJobsScreen::class)->name('platform.workerJobs');
