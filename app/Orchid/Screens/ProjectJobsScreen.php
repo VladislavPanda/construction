@@ -73,7 +73,14 @@ class ProjectJobsScreen extends Screen
                         ->parameters([
                             'project_id' => self::$projectId
                         ]),
-                ])
+                    
+                    Button::make('Назад')
+                        ->method('back')
+                        ->type(Color::DEFAULT())
+                        ->parameters([
+                            'project_id' => self::$projectId
+                        ]),
+                ])->autowidth()
             ]), 
 
             Layout::table('jobs', [
@@ -171,5 +178,11 @@ class ProjectJobsScreen extends Screen
         $flag = $controller->delete($jobId);
 
         if($flag === true) Alert::warning('Задача была удалена');
+    }
+
+    public function back(Request $request){
+        $projectId = $request->get('projects');
+
+        return redirect()->route('platform.projects');
     }
 }

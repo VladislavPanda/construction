@@ -30,6 +30,7 @@ class JobUpdateScreen extends Screen
     private static $workers;
     private static $currentWorker;
     private static $projectEndDate;
+    private static $projectId;
 
     /**
      * Query data.
@@ -64,7 +65,10 @@ class JobUpdateScreen extends Screen
         $worker = User::select('surname', 'first_name', 'patronymic', 'speciality')->where('id', $job->worker_id)->get()->toArray();
         $currentWorker = $worker[0]['surname'] . " " . $worker[0]['first_name'] . " " . $worker[0]['patronymic'] . " - " . $worker[0]['speciality'];
 
+        self::$projectId = $job->project_id;
+
         return [
+            //'project_id' => $job->project_id,
             'description' => $job->description,
             'date' => $job->date,
             'job' => $job->job,
@@ -91,6 +95,15 @@ class JobUpdateScreen extends Screen
     public function layout(): array
     {
         return [
+            Layout::rows([
+                Button::make('Назад')
+                            ->method('back')
+                            ->type(Color::DEFAULT())
+                            ->parameters([
+                                'project_id' => self::$projectId
+                            ]),
+            ]),
+
             Layout::columns([
                 Layout::rows([
                     TextArea::make('description')
@@ -129,5 +142,11 @@ class JobUpdateScreen extends Screen
         $flag = $controller->update($updatedJob);
 
         if($flag === true) Alert::warning('Задача была успешно отредактирована');
+    }
+
+    public function back(Request $request){
+        $projectId = $request->get('project_id');
+
+        return redirect()->route('platform.projectJobs', ['project_id' => $projectId]);
     }
 }

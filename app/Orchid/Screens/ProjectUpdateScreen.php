@@ -123,4 +123,10 @@ class ProjectUpdateScreen extends Screen
 
         if($flag === true) Alert::warning('Запись успешно отредактирована');
     }
+
+    public function back(Request $request){
+        $projectId = $request->get('project_id');
+
+        return redirect()->route('platform.projectJobs', ['project_id' => $projectId]);
+    }
 }
