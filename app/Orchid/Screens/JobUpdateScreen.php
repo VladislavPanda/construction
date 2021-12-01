@@ -48,10 +48,11 @@ class JobUpdateScreen extends Screen
         $job = $controller->getUpdatedJob($jobId);
 
         $endDate = Project::select('end_date')->where('id', $job->project_id)->get()->toArray();
-        $eSort = $endDate[0]['end_date'];
-        $eSort = str_replace('-', '/', $eSort);
+        //$eSort = $endDate[0]['end_date'];
+        self::$projectEndDate = $endDate[0]['end_date'];
+        /*$eSort = str_replace('-', '/', $eSort);
         $eSort = explode('/', $eSort);
-        self::$projectEndDate = $eSort[2] . '/' . $eSort[1] . '/' . $eSort[0];
+        self::$projectEndDate = $eSort[2] . '/' . $eSort[1] . '/' . $eSort[0];*/
 
         $workers = User::select('surname', 'first_name', 'patronymic', 'speciality')->whereHas('roles', function ($query) {
             $query->where('slug', 'worker');
@@ -66,6 +67,7 @@ class JobUpdateScreen extends Screen
         $currentWorker = $worker[0]['surname'] . " " . $worker[0]['first_name'] . " " . $worker[0]['patronymic'] . " - " . $worker[0]['speciality'];
 
         self::$projectId = $job->project_id;
+        //echo self::$projectEndDate;
 
         return [
             //'project_id' => $job->project_id,
@@ -120,8 +122,8 @@ class JobUpdateScreen extends Screen
                     DateTimer::make('date')
                         ->title('Дата выполнения:')
                         ->format('d-m-Y')
-                        ->required()
-                        ->available([ ['from' => Date::today(), "to" => self::$projectEndDate] ]),
+                        ->required(),
+                        //->available([ ['from' => Date::today(), "to" => self::$projectEndDate] ]),
 
                     Button::make('Редактировать')
                         ->method('submit')

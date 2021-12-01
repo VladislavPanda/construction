@@ -79,7 +79,13 @@ class ProjectsScreen extends Screen
                         $date = $date[2] . '-' . $date[1] . '-' . $date[0];
                         $date = str_replace(' ', '', $date);
 
-                        if($currentDate >= $project->end_date) $date .= '<p> Срок сдачи объекта истёк, обновите дату</p>';
+                        if($currentDate >= $project->end_date)
+                        $date .= '<br><span style="
+                        word-break: break-word;
+                        word-wrap: break-word;
+                        overflow-wrap: break-word;
+                        color: firebrick;"> Срок сдачи объекта истёк, обновите дату</span>';
+                        
                         return $date;
                 })->sort(),
 
