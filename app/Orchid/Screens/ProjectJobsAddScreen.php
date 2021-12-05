@@ -84,23 +84,32 @@ class ProjectJobsAddScreen extends Screen
     public function layout(): array
     {
         return [
+            Layout::rows([
+                Button::make('Назад')
+                            ->method('back')
+                            ->type(Color::DEFAULT())
+                            ->parameters([
+                                'project_id' => self::$projectId
+                            ]),
+            ]),
+
             Layout::columns([
                 Layout::rows([
                     TextArea::make('description')
                         ->title('Описание')
-                        ->rows(6)
-                        ->required(),
+                        ->rows(6),
+                        //->required(),
                     
                     DateTimer::make('date')
                         ->title('Дата завершения:')
                         ->format('d-m-Y')
-                        ->required()
+                        //->required()
                         ->available([ ['from' => Date::today(), "to" => self::$projectEndDate] ]), 
 
                     Select::make('worker')
                         ->title('Назначить сотрудника')
-                        ->options(self::$workers)
-                        ->required(),
+                        ->options(self::$workers),
+                        //->required(),
                         //->fromModel(Speciality::class, 'title'),*/
 
                     Button::make('Добавить')
@@ -118,9 +127,19 @@ class ProjectJobsAddScreen extends Screen
         $flag = false;
         $job = $request->all();
 
-        $controller = new JobController();
-        $flag = $controller->store($job);
+        if($job['description'] == null || $job['date'] == null){
+            Alert::warning('Заполните поля "Описание" и "Дата завершения"');
+        }else{
+            $controller = new JobController();
+            $flag = $controller->store($job);
+    
+            if($flag === true) Alert::warning('Задача была успешно добавлена');
+        }
+    }
 
-        if($flag === true) Alert::warning('Задача была успешно добавлена');
+    public function back(Request $request){
+        $projectId = $request->get('project_id');
+
+        return redirect()->route('platform.projectJobs', ['project_id' => $projectId]);
     }
 }

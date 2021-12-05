@@ -22,6 +22,7 @@ class UserRoleLayout extends Rows
             Select::make('user.roles.')
                 ->fromModel(Role::class, 'name')
                 ->multiple()
+                ->maximumSelectionLength(1)
                 ->title(__('Название роли'))
                 ->help('')
                 ->required(),

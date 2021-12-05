@@ -36,8 +36,10 @@ class ProjectController extends Controller
             $projectId = $lastProjectId + 1;
         }
 
+        //dd($project);
         $foremanData = explode(' ', $project['foreman']);
         $foremanId = User::select('id')->where('surname', $foremanData[0])->get()->toArray();
+        /*dd($foremanId);*/
         $foremanId = $foremanId[0]['id'];
         $project['user_id'] = $foremanId;
 

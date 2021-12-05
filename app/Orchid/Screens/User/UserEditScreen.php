@@ -187,6 +187,15 @@ class UserEditScreen extends Screen
             ->toArray();
 
         $userData = $request->get('user');
+        $surnameString = str_split($userData['surname']);
+        $surnameStringSize = sizeof($surnameString);
+
+        for($i = 0; $i < $surnameStringSize; $i++){
+            if($surnameString[$i] == ' ') unset($surnameString[$i]);
+        }
+
+        $userData['surname'] = implode('', $surnameString);
+        
         //$userData['status'] = null;
         //dd($user);
         // Проверяем роли: если это не сотрудник, то убираем специальность
