@@ -77,7 +77,7 @@ class UserProfileScreen extends Screen
                 ->title(__('Сменить пароль'))
                 ->description(__('Убедитесь, что в вашей учетной записи используется длинный случайный пароль, чтобы оставаться в безопасности'))
                 ->commands(
-                    Button::make(__('Ихменить пароль'))
+                    Button::make(__('Изменить пароль'))
                         ->type(Color::DEFAULT())
                         ->icon('check')
                         ->method('changePassword')

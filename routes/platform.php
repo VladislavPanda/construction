@@ -43,9 +43,8 @@ use App\Orchid\Screens\DriversScreen;
 use App\Orchid\Screens\ForemenScreen;
 use App\Orchid\Screens\MessagesScreen;
 
-/*use App\Orchid\Screens\SalaryAddScreen;
-use App\Orchid\Screens\DriverInfoAddScreen;
-*/
+use App\Orchid\Screens\WorkerMessagesScreen;
+use App\Orchid\Screens\WorkerMessageAddScreen;
 
 /*
 |--------------------------------------------------------------------------
@@ -167,6 +166,8 @@ Route::screen('messages', MessagesScreen::class)->name('platform.messages');
 
 // Роуты страниц сотрудника
 Route::screen('workerJobs', WorkerJobsScreen::class)->name('platform.workerJobs');
+Route::screen('workerMessages', WorkerMessagesScreen::class)->name('platform.workerMessages');
+Route::screen('workerMessageAdd', WorkerMessageAddScreen::class)->name('platform.workerMessageAdd');
 
 // Роуты страниц водителя
 Route::screen('myDriverTasks', MyDriverTasksScreen::class)->name('platform.myDriverTasks');

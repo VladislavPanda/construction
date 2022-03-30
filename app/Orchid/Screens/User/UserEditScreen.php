@@ -150,7 +150,7 @@ class UserEditScreen extends Screen
                         ->method('save')
                 ),
 
-            Layout::block(RolePermissionLayout::class)
+            /*Layout::block(RolePermissionLayout::class)
                 ->title(__('Permissions'))
                 ->description(__('Allow the user to perform some actions that are not provided for by his roles'))
                 ->commands(
@@ -159,7 +159,7 @@ class UserEditScreen extends Screen
                         ->icon('check')
                         ->canSee($this->user->exists)
                         ->method('save')
-                ),
+                ),*/
 
         ];
     }
@@ -231,7 +231,7 @@ class UserEditScreen extends Screen
 
         $user->replaceRoles($request->input('user.roles'));
 
-        Toast::info(__('User was saved.'));
+        Toast::info(__('Данные были сохранены'));
 
         return redirect()->route('platform.systems.users');
     }

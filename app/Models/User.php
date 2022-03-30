@@ -69,4 +69,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Project::class);
     }*/
+
+    public function workerMessages(){
+        return $this->hasMany(WorkerMessage::class);
+    }
 }

@@ -96,6 +96,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.workerJobs')
                 ->permission('platform.workerJobs'),
 
+            Menu::make('Сообщения менеджерам')
+                ->icon('envelope-letter')
+                ->route('platform.workerMessages')
+                ->permission('platform.workerMessages'),
+
             /*Menu::make('Example screen')
                 ->icon('monitor')
                 ->route('platform.example')
@@ -159,10 +164,10 @@ class PlatformProvider extends OrchidServiceProvider
                 ->permission('platform.systems.users')
                 ->title(__('Права доступа')),
 
-            Menu::make(__('Роли'))
+            /*Menu::make(__('Роли'))
                 ->icon('lock')
                 ->route('platform.systems.roles')
-                ->permission('platform.systems.roles'),
+                ->permission('platform.systems.roles'),*/
         ];
     }
 
@@ -217,7 +222,9 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.messages', __('Оповещения')),
             
             ItemPermission::group(__('Сотрудник'))
-                ->addPermission('platform.workerJobs', __('Мои работы')),
+                ->addPermission('platform.workerJobs', __('Мои работы'))
+                ->addPermission('platform.workerMessages', __('Сообщения менеджеру'))
+                ->addPermission('platform.workerMessageAdd', __('Написать сообщение')),
 
             ItemPermission::group(__('Водитель'))
                 ->addPermission('platform.myDriverTasks', __('Задачи')),
