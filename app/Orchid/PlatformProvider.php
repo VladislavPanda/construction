@@ -101,6 +101,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.workerMessages')
                 ->permission('platform.workerMessages'),
 
+            Menu::make('Заявки')
+                ->icon('exclamation')
+                ->route('platform.bids')
+                ->permission('platform.bids'),
+
             /*Menu::make('Example screen')
                 ->icon('monitor')
                 ->route('platform.example')
@@ -219,7 +224,8 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.projectUpdate', __('Редактировать объект'))
                 ->addPermission('platform.projectJobsAdd', __('Добавить работы'))
                 ->addPermission('platform.projectJobUpdate', __('Редактировать работу'))
-                ->addPermission('platform.messages', __('Оповещения')),
+                ->addPermission('platform.messages', __('Оповещения'))
+                ->addPermission('platform.bids', __('Заявки')),
             
             ItemPermission::group(__('Сотрудник'))
                 ->addPermission('platform.workerJobs', __('Мои работы'))

@@ -45,6 +45,7 @@ use App\Orchid\Screens\MessagesScreen;
 
 use App\Orchid\Screens\WorkerMessagesScreen;
 use App\Orchid\Screens\WorkerMessageAddScreen;
+use App\Orchid\Screens\BidsScreen;
 
 /*
 |--------------------------------------------------------------------------
@@ -163,6 +164,7 @@ Route::screen('projectUpdate', ProjectUpdateScreen::class)->name('platform.proje
 Route::screen('projectJobsAdd', ProjectJobsAddScreen::class)->name('platform.projectJobsAdd');
 Route::screen('projectJobUpdate', JobUpdateScreen::class)->name('platform.projectJobUpdate');
 Route::screen('messages', MessagesScreen::class)->name('platform.messages');
+Route::screen('bids', BidsScreen::class)->name('platform.bids');
 
 // Роуты страниц сотрудника
 Route::screen('workerJobs', WorkerJobsScreen::class)->name('platform.workerJobs');
