@@ -61,6 +61,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.messages')
                 ->permission('platform.messages'),
 
+            Menu::make('Диаграммы')
+                ->icon('pie-chart')
+                ->route('platform.diagrams')
+                ->permission('platform.diagrams'),
+
             /*Menu::make('Добавить задачу водителям')
                 ->icon('plus')
                 ->route('platform.driver')
@@ -225,7 +230,8 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.projectJobsAdd', __('Добавить работы'))
                 ->addPermission('platform.projectJobUpdate', __('Редактировать работу'))
                 ->addPermission('platform.messages', __('Оповещения'))
-                ->addPermission('platform.bids', __('Заявки')),
+                ->addPermission('platform.bids', __('Заявки'))
+                ->addPermission('platform.diagrams', __('Диаграммы')),
             
             ItemPermission::group(__('Сотрудник'))
                 ->addPermission('platform.workerJobs', __('Мои работы'))

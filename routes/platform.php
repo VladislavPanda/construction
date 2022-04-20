@@ -36,16 +36,15 @@ use App\Orchid\Screens\ProjectJobsAddScreen;
 use App\Orchid\Screens\WorkerJobsScreen;
 use App\Orchid\Screens\MyProjectScreen;
 use App\Orchid\Screens\JobUpdateScreen;
-
 use App\Orchid\Screens\ForemanTasksScreen;
 use App\Orchid\Screens\WorkersScreen;
 use App\Orchid\Screens\DriversScreen;
 use App\Orchid\Screens\ForemenScreen;
 use App\Orchid\Screens\MessagesScreen;
-
 use App\Orchid\Screens\WorkerMessagesScreen;
 use App\Orchid\Screens\WorkerMessageAddScreen;
 use App\Orchid\Screens\BidsScreen;
+use App\Orchid\Screens\DiagramsScreen;
 
 /*
 |--------------------------------------------------------------------------
@@ -152,7 +151,6 @@ Route::screen('specialityUpdate', SpecialityUpdateScreen::class)->name('platform
 Route::screen('workers', WorkersScreen::class)->name('platform.workers');
 Route::screen('drivers', DriversScreen::class)->name('platform.drivers');
 Route::screen('foremen', ForemenScreen::class)->name('platform.foremen');
-
 Route::screen('driverTaskAdd', DriverTaskAddScreen::class)->name('platform.driverTaskAdd');
 Route::screen('driverTasks', DriverTasksScreen::class)->name('platform.driverTasks');
 Route::screen('driverTaskUpdate', DriverTaskUpdateScreen::class)->name('platform.driverTaskUpdate');
@@ -165,6 +163,7 @@ Route::screen('projectJobsAdd', ProjectJobsAddScreen::class)->name('platform.pro
 Route::screen('projectJobUpdate', JobUpdateScreen::class)->name('platform.projectJobUpdate');
 Route::screen('messages', MessagesScreen::class)->name('platform.messages');
 Route::screen('bids', BidsScreen::class)->name('platform.bids');
+Route::screen('diagrams', DiagramsScreen::class)->name('platform.diagrams');
 
 // Роуты страниц сотрудника
 Route::screen('workerJobs', WorkerJobsScreen::class)->name('platform.workerJobs');
