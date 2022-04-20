@@ -6,17 +6,17 @@ namespace App\Orchid\Layouts\Diagrams;
 
 use Orchid\Screen\Layouts\Chart;
 
-class Jobs extends Chart
+class JobsNum extends Chart
 {
     /**
      * @var string
      */
-    protected $title = 'Виды работ';
+    protected $title = 'Статусы работ';
 
     /**
      * @var int
      */
-    protected $height = 160;
+    protected $height = 350;
 
     /**
      * Available options:
@@ -25,10 +25,10 @@ class Jobs extends Chart
      *
      * @var string
      */
-    protected $type = 'percentage';
+    protected $type = 'pie';
 
     /**
      * @var string
      */
-    protected $target = 'jobs';
+    protected $target = 'jobsNum';
 }

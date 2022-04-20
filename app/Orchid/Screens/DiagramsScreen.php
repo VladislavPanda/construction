@@ -4,6 +4,7 @@ namespace App\Orchid\Screens;
 
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
+use App\Orchid\Layouts\Diagrams\JobsNum;
 use App\Orchid\Layouts\Diagrams\Jobs;
 use App\Services\DiagramsService;
 
@@ -25,17 +26,26 @@ class DiagramsScreen extends Screen
      */
     public function query(): array
     {
-        $jobs = [];
+        $jobsNum = [];
         $diagramsService = new DiagramsService();
-        $jobs = $diagramsService->jobsChart();
+        $jobsNum = $diagramsService->jobsChart();
+        $jobs = $diagramsService->jobs();
 
         return [
-            'charts' => [
+            'jobsNum' => [
+                [
+                    'name'   => 'JobsNum',
+                    'values' => $jobsNum,
+                    'labels' => ['В работе', 'Выполнено', 'Не выполнено', 'Отменено'],
+                ],
+            ],
+
+            'jobs' => [
                 [
                     'name'   => 'Jobs',
                     'values' => $jobs,
-                    'labels' => ['В работе', 'Выполнено', 'Не выполнено', 'Отменено'],
-                ],
+                    'labels' => ['Архитектор', 'Каменщик', 'Монтажник', 'Сантехник', 'Водитель крана'],
+                ]
             ],
         ];
     }
@@ -59,8 +69,12 @@ class DiagramsScreen extends Screen
     {
         return [
             Layout::columns([
-                Jobs::class,
+                JobsNum::class,
             ]),
+
+            Layout::columns([
+                Jobs::class
+            ])
         ];
     }
 }

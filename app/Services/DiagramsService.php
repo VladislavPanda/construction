@@ -20,4 +20,20 @@ class DiagramsService{
 
         return [$set, $done, $rejected, $cancelled];
     }
+
+    public function jobs(){
+        $architects = 0;
+        $masons = 0;
+        $fitters = 0;
+        $plumbers = 0;
+        $craneDrivers = 0;
+
+        $architects = Job::where('job', 'Архитектор')->count();
+        $masons = Job::where('job', 'Каменщик')->count();
+        $fitters = Job::where('job', 'Монтажник')->count();
+        $plumbers = Job::where('job', 'Сантехник')->count();
+        $craneDrivers = Job::where('job', 'Водитель крана')->count();
+
+        return [$architects, $masons, $fitters, $plumbers, $craneDrivers];
+    }
 }
