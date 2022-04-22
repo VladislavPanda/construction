@@ -96,6 +96,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.projects')
                 ->permission('platform.projects'),
 
+            Menu::make('Заметки')
+                ->icon('note')
+                ->route('platform.notes')
+                ->permission('platform.notes'),
+
             Menu::make('Мои работы')
                 ->icon('task')
                 ->route('platform.workerJobs')
@@ -243,6 +248,7 @@ class PlatformProvider extends OrchidServiceProvider
 
             ItemPermission::group(__('Прораб'))
                 ->addPermission('platform.myProject', __('Текущий объект'))
+                ->addPermission('platform.notes', __('Заметки'))
         ];
     }
 }

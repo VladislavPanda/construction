@@ -45,6 +45,7 @@ use App\Orchid\Screens\WorkerMessagesScreen;
 use App\Orchid\Screens\WorkerMessageAddScreen;
 use App\Orchid\Screens\BidsScreen;
 use App\Orchid\Screens\DiagramsScreen;
+use App\Orchid\Screens\NotesScreen;
 
 /*
 |--------------------------------------------------------------------------
@@ -175,6 +176,7 @@ Route::screen('myDriverTasks', MyDriverTasksScreen::class)->name('platform.myDri
 
 // Роуты страниц прораба
 Route::screen('myProject', MyProjectScreen::class)->name('platform.myProject');
+Route::screen('notes', NotesScreen::class)->name('platform.notes');
 
 /*
 Route::screen('addSalary', SalaryAddScreen::class)->name('platform.addSalary');

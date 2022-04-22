@@ -43,12 +43,19 @@ class MyProjectScreen extends Screen
         $foremanId = AuthHandler::getCurrentUser();
 
         $project = Project::select('id')->where('user_id', $foremanId)->get()->toArray();
-        $projectId = $project[0]['id'];
+        if(isset($project[0])){ 
+            $projectId = $project[0]['id'];
 
-        return [
-            'projectInfo' => Project::where('user_id', $foremanId)->where('status', 'В работе')->get()->toArray(),
-            'jobs' => Job::filters()->where('project_id', $projectId)->paginate()
-        ];
+            return [
+                'projectInfo' => Project::where('user_id', $foremanId)->where('status', 'В работе')->get()->toArray(),
+                'jobs' => Job::filters()->where('project_id', $projectId)->paginate()
+            ];
+        }else{
+            return [
+                'projectInfo' => [],
+                'jobs' => []
+            ];
+        }
     }
 
     /**
