@@ -10,6 +10,7 @@
         <h4>Описание: {{ $projectInfo[0]['description'] }}</h4>
         <h4>Дата завершения: {{ $projectInfo[0]['end_date'] }}</h4>
         <h4>Статус: {{ $projectInfo[0]['status'] }}</h4>
+        <h4>Сложность: {{ $projectInfo[0]['difficulty'] }}/5</h4>
         <h4 style="margin-bottom: 30px;">Дата создания: {{ $projectInfo[0]['created_at'] }}</h4>
     @endif
 </div>

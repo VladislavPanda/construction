@@ -32,6 +32,7 @@ class MyProjectScreen extends Screen
      */
     public $name = 'Текущий объект';
     public $permission = 'platform.myProject';
+    private $project;
 
     /**
      * Query data.
@@ -43,6 +44,9 @@ class MyProjectScreen extends Screen
         $foremanId = AuthHandler::getCurrentUser();
 
         $project = Project::select('id')->where('user_id', $foremanId)->get()->toArray();
+        $this->project = $project;
+        $this->checkProjectExistance($this->project);
+        
         if(isset($project[0])){ 
             $projectId = $project[0]['id'];
 
@@ -78,6 +82,20 @@ class MyProjectScreen extends Screen
         return [
             Layout::columns([
                 Layout::view('myProject', ['projectInfo' => 'projectInfo']),
+            ]),
+
+            Layout::columns([
+                Layout::rows([
+                    ModalToggle::make('Установить сложность')
+                                //->type(Color::PRIMARY())
+                                ->class('shortBtn')
+                                ->modal('projectDifficulty')
+                                ->canSee($this->checkProjectExistance($this->project))
+                                ->parameters([
+                                    'project_id' => $this->project[0]['id']
+                                ])
+                                ->method('setDifficulty')
+                ])
             ]),
 
             Layout::table('jobs', [
@@ -172,6 +190,14 @@ class MyProjectScreen extends Screen
                   //  ->required(),
             ]))->title('Введите причину невыполнения')->applyButton('Отправить')
             ->closeButton('Закрыть'),
+
+            Layout::modal('projectDifficulty', Layout::rows([
+                Input::make('difficulty')
+                            ->type('number')
+                            ->min(1)
+                            ->max(5)
+            ]))->title('Введите коэффициент сложности объекта от 1 до 5')->applyButton('Отправить')
+            ->closeButton('Закрыть'),
         ];
     }
 
@@ -192,5 +218,17 @@ class MyProjectScreen extends Screen
 
         $controller = new JobController();
         $flag = $controller->setReject($jobId, $rejectReason);   
+    }
+
+    public function checkProjectExistance($project){
+        if(isset($project[0])) return true;
+        else return false;
+    }
+
+    public function setDifficulty(Request $request){
+        $data = $request->except(['_token']);
+
+        $controller = new ProjectController();
+        $controller->updateDifficulty($data);
     }
 }

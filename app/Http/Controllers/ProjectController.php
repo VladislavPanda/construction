@@ -116,4 +116,11 @@ class ProjectController extends Controller
 
         return $closeFlag;
     }
+
+    public function updateDifficulty($data){
+        $item = Project::find($data['project_id']);
+        $item->update([
+            'difficulty' => (int) $data['difficulty']
+        ]);
+    }
 }
