@@ -46,6 +46,7 @@ use App\Orchid\Screens\WorkerMessageAddScreen;
 use App\Orchid\Screens\BidsScreen;
 use App\Orchid\Screens\DiagramsScreen;
 use App\Orchid\Screens\NotesScreen;
+use App\Orchid\Screens\SalariesScreen;
 
 /*
 |--------------------------------------------------------------------------
@@ -147,6 +148,7 @@ Route::screen('example-advanced', ExampleFieldsAdvancedScreen::class)->name('pla
 Route::screen('specialityAdd', SpecialityAddScreen::class)->name('platform.specialityAdd');
 Route::screen('specialitiesView', SpecialitiesViewScreen::class)->name('platform.specialitiesView');
 Route::screen('specialityUpdate', SpecialityUpdateScreen::class)->name('platform.specialityUpdate');
+Route::screen('salaries', SalariesScreen::class)->name('platform.salaries');
 
 // Роуты страниц менеджера
 Route::screen('workers', WorkersScreen::class)->name('platform.workers');

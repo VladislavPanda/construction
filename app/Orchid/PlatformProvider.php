@@ -41,6 +41,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.specialitiesView')
                 ->permission('platform.specialitiesView'),
 
+            Menu::make('Оклады')
+                ->icon('money')
+                ->route('platform.salaries')
+                ->permission('platform.salaries'),
+
             Menu::make('Сотрудники')
                 ->icon('user-following')
                 ->route('platform.workers')
@@ -218,7 +223,8 @@ class PlatformProvider extends OrchidServiceProvider
             ItemPermission::group(__('Администратор'))
                 ->addPermission('platform.specialityAdd', __('Добавить специальность'))
                 ->addPermission('platform.specialitiesView', __('Список специальностей'))
-                ->addPermission('platform.specialityUpdate', __('Обновить специальность')),
+                ->addPermission('platform.specialityUpdate', __('Обновить специальность'))
+                ->addPermission('platform.salaries', __('Установить оклады')),
 
             ItemPermission::group(__('Менеджер'))
                 ->addPermission('platform.workers', __('Список сотрудников'))
