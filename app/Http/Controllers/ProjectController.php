@@ -123,4 +123,11 @@ class ProjectController extends Controller
             'difficulty' => (int) $data['difficulty']
         ]);
     }
+
+    public function setBudget($projectId, $budget){
+        $item = Project::find($projectId);
+        $item->update([
+            'budget' => $budget
+        ]);
+    }
 }

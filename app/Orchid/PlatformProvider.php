@@ -41,10 +41,10 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.specialitiesView')
                 ->permission('platform.specialitiesView'),
 
-            Menu::make('Оклады')
+            /*Menu::make('Оклады')
                 ->icon('money')
                 ->route('platform.salaries')
-                ->permission('platform.salaries'),
+                ->permission('platform.salaries'),*/
 
             Menu::make('Сотрудники')
                 ->icon('user-following')

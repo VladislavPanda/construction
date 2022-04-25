@@ -32,4 +32,8 @@ class SalaryController extends Controller
 
         return $specialities;
     }
+
+    public function update($items){
+        dd($items);
+    }
 }

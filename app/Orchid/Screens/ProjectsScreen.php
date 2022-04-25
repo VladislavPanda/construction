@@ -7,6 +7,8 @@ use Orchid\Support\Facades\Layout;
 use Orchid\Screen\TD;
 use Illuminate\Support\Str;
 use Orchid\Screen\Fields\Group;
+use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Actions\Button;
 use Orchid\Support\Color;
 use Orchid\Support\Facades\Alert;
@@ -69,6 +71,13 @@ class ProjectsScreen extends Screen
                         return view('tableData', ['data' => $project->description]);
                 }),
 
+                TD::make('', 'Сумма на объект')
+                    ->width('400')
+                    ->render(function (Project $project) {
+                        return Str::limit($project->budget);
+                        //return view('tableData', ['data' => $project->description]);
+                }),
+
                 TD::make('end_date', 'Дата сдачи')
                     ->width('400')
                     ->render(function (Project $project) {
@@ -106,6 +115,15 @@ class ProjectsScreen extends Screen
                     //->width('200')
                     ->render(function (Project $project) {
                         return Group::make([
+                            ModalToggle::make('Назначить сумму')
+                                //->type(Color::PRIMARY())
+                                ->class('shortBtn')
+                                ->modal('set_budget_modal')
+                                ->parameters([
+                                    'id' => $project->id,
+                                ])
+                                ->method('setBudget'),
+
                             Button::make('Работы на объекте')
                                 ->method('jobs')
                                 //->type(Color::PRIMARY())
@@ -143,7 +161,15 @@ class ProjectsScreen extends Screen
                                 ->rawClick(),
                         ])->autoWidth();
                     }),
-            ])
+            ]),
+            
+            Layout::modal('set_budget_modal', Layout::rows([
+                Input::make('budget')
+                        ->type('number')
+                        ->min(1)
+                        ->required(),
+            ]))->title('Введите сумму')->applyButton('Отправить')
+            ->closeButton('Закрыть'),
         ];
     }
 
@@ -177,5 +203,15 @@ class ProjectsScreen extends Screen
             return $flag->download('report_' . $projectId . '.pdf');
         }
         else Alert::warning('Ошибка завершения. На объекте выполнены не все работы');
+    }
+
+    public function setBudget(Request $request){
+        $projectId = $request->get('id');
+        $budget = $request->get('budget');
+
+        $controller = new ProjectController();
+        $controller->setBudget($projectId, $budget);
+
+        //return redirect()->route('platform.projectUpdate', ['project_id' => $projectId]);
     }
 }
