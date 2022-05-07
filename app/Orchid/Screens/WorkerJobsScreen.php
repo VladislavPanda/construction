@@ -9,6 +9,8 @@ use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Matrix;
 use Orchid\Screen\Fields\Select;
+use Orchid\Screen\Fields\TextArea;
+use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\TD;
 use Illuminate\Support\Str;
@@ -108,7 +110,39 @@ class WorkerJobsScreen extends Screen
                     ->render(function (Job $job) {
                         return Str::limit($job->reject_reason);
                 }),
-            ])
+
+                TD::make('', '')
+                    ->render(function (Job $job) {
+                        return Group::make([
+                            ModalToggle::make('Запросить сумму')
+                                //->type(Color::PRIMARY())
+                                ->class('shortBtn')
+                                ->modal('budget_modal')
+                                ->parameters([
+                                    'id' => $job->id,
+                                ])
+                                ->method('budget')
+                        ])->autoWidth();
+                    }),
+            ]),
+
+            Layout::modal('budget_modal', Layout::rows([
+                TextArea::make('budget_bid_description')
+                        ->title('Описание запроса:')
+                        ->required()
+                        ->rows(6),
+
+                Input::make('sum')
+                        ->title('Сумма')
+                        ->type('number')
+                        ->required()
+                        ->min(1),
+            ]))->title('Введите данные запроса на сумму')->applyButton('Отправить')
+            ->closeButton('Закрыть'),
         ];
+    }
+
+    public function budget(Request $request){
+        dd($request->all());
     }
 }
