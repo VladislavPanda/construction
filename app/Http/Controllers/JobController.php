@@ -8,6 +8,7 @@ use App\Models\Job;
 use App\Models\User;
 use App\Models\BudgetBid;
 use App\Models\Project;
+use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
@@ -118,7 +119,8 @@ class JobController extends Controller
                 'description' => $item['budget_bid_description'],
                 'sum' => $item['sum'],
                 'project_id' => $item['id'],
-                'status' => $item['status']
+                'status' => $item['status'],
+                'user_id' => Auth::user()->id
             ]);
         }
 

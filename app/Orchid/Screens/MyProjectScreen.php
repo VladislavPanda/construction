@@ -86,15 +86,22 @@ class MyProjectScreen extends Screen
 
             Layout::columns([
                 Layout::rows([
-                    ModalToggle::make('Установить сложность')
-                                //->type(Color::PRIMARY())
-                                ->class('shortBtn')
-                                ->modal('projectDifficulty')
-                                ->canSee($this->checkProjectExistance($this->project))
-                                ->parameters([
-                                    'project_id' => $this->project[0]['id']
-                                ])
-                                ->method('setDifficulty')
+                    Group::make([
+                        ModalToggle::make('Установить сложность')
+                            //->type(Color::PRIMARY())
+                            ->class('shortBtn')
+                            ->modal('projectDifficulty')
+                            ->canSee($this->checkProjectExistance($this->project))
+                            ->parameters([
+                                'project_id' => $this->project[0]['id']
+                            ])
+                        ->method('setDifficulty'),
+
+                        Button::make('Запросы сотрудников')
+                            ->method('budgetBids')
+                            //->type(Color::PRIMARY())
+                            ->class('shortBtn')   
+                    ])->autowidth()
                 ])
             ]),
 
@@ -230,5 +237,10 @@ class MyProjectScreen extends Screen
 
         $controller = new ProjectController();
         $controller->updateDifficulty($data);
+    }
+
+    public function budgetBids(Request $request){
+        //$budgetBid = $request->except(['_token']);
+        return redirect()->route('platform.budgetBids');
     }
 }

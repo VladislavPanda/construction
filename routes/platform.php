@@ -47,6 +47,7 @@ use App\Orchid\Screens\BidsScreen;
 use App\Orchid\Screens\DiagramsScreen;
 use App\Orchid\Screens\NotesScreen;
 use App\Orchid\Screens\SalariesScreen;
+use App\Orchid\Screens\BudgetBidsScreen;
 
 /*
 |--------------------------------------------------------------------------
@@ -179,6 +180,7 @@ Route::screen('myDriverTasks', MyDriverTasksScreen::class)->name('platform.myDri
 // Роуты страниц прораба
 Route::screen('myProject', MyProjectScreen::class)->name('platform.myProject');
 Route::screen('notes', NotesScreen::class)->name('platform.notes');
+Route::screen('budgetBids', BudgetBidsScreen::class)->name('platform.budgetBids');
 
 /*
 Route::screen('addSalary', SalaryAddScreen::class)->name('platform.addSalary');
