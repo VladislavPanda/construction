@@ -33,7 +33,10 @@ class SalaryController extends Controller
         return $specialities;
     }
 
-    public function update($items){
-        dd($items);
+    public function update($item){
+        $speciality = Speciality::find($item['id']);
+        $speciality->update([
+            'salary' => $item['salary']
+        ]);
     }
 }
