@@ -13,9 +13,11 @@ use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\TD;
+use Orchid\Support\Facades\Alert;
 use Illuminate\Support\Str;
 use Orchid\Support\Color;
 use Illuminate\Http\Request;
+use App\Http\Controllers\JobController;
 use App\Models\Job;
 use App\Models\User;
 use App\Models\Project;
@@ -143,6 +145,12 @@ class WorkerJobsScreen extends Screen
     }
 
     public function budget(Request $request){
-        dd($request->all());
+        $budgetBid = $request->except(['_token']);
+    
+        $controller = new JobController();
+        $flag = $controller->putBudgetBid($budgetBid);
+
+        if($flag === false) Alert::warning('Запрошенная сумма превышает бюджет'); 
+        else Alert::warning('Запрос был отправлен');
     }
 }

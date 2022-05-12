@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Models\Job;
 use App\Models\User;
+use App\Models\BudgetBid;
+use App\Models\Project;
 
 class JobController extends Controller
 {
@@ -106,4 +108,20 @@ class JobController extends Controller
 
         return true;
     }
+
+    public function putBudgetBid($item){
+        $item['status'] = 'На рассмотрении';
+        $currentBudget = Project::select('budget')->where('id', $item['id'])->get();
+        if($currentBudget[0]->budget < $item['sum']) return false;
+        else{
+            BudgetBid::create([
+                'description' => $item['budget_bid_description'],
+                'sum' => $item['sum'],
+                'project_id' => $item['id'],
+                'status' => $item['status']
+            ]);
+        }
+
+        return 'Заявка передана на рассмотрение';
+    } 
 }
