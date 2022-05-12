@@ -121,6 +121,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.bids')
                 ->permission('platform.bids'),
 
+            Menu::make('Контроль заработной платы')
+                ->icon('money')
+                ->route('platform.mySalary')
+                ->permission('platform.mySalary'),
+
             /*Menu::make('Example screen')
                 ->icon('monitor')
                 ->route('platform.example')
@@ -242,19 +247,23 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.projectJobUpdate', __('Редактировать работу'))
                 ->addPermission('platform.messages', __('Оповещения'))
                 ->addPermission('platform.bids', __('Заявки'))
-                ->addPermission('platform.diagrams', __('Диаграммы')),
+                ->addPermission('platform.diagrams', __('Диаграммы'))
+                ->addPermission('platform.mySalary', __('Контроль заработной платы')),
             
             ItemPermission::group(__('Сотрудник'))
                 ->addPermission('platform.workerJobs', __('Мои работы'))
                 ->addPermission('platform.workerMessages', __('Сообщения менеджеру'))
-                ->addPermission('platform.workerMessageAdd', __('Написать сообщение')),
+                ->addPermission('platform.workerMessageAdd', __('Написать сообщение'))
+                ->addPermission('platform.mySalary', __('Контроль заработной платы')),
 
             ItemPermission::group(__('Водитель'))
-                ->addPermission('platform.myDriverTasks', __('Задачи')),
+                ->addPermission('platform.myDriverTasks', __('Задачи'))
+                ->addPermission('platform.mySalary', __('Контроль заработной платы')),
 
             ItemPermission::group(__('Прораб'))
                 ->addPermission('platform.myProject', __('Текущий объект'))
                 ->addPermission('platform.notes', __('Заметки'))
+                ->addPermission('platform.mySalary', __('Контроль заработной платы')),
         ];
     }
 }
