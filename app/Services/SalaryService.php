@@ -35,7 +35,7 @@ class SalaryService{
     }
 
     private function managerCalculator($userId){
-        $sum = 0;
+        $salaryData = [];
 
         // Извлекаем оклад
         $salary = Speciality::select('salary')->where('title', 'Менеджер')->get();
@@ -49,10 +49,13 @@ class SalaryService{
 
         $bidsNum = Bid::whereBetween('created_at', [$firstDateOfCurrentMonth, $currentDate])->count();
         
-        // Вопрос по формуле
         $sum = $salary + $bidsNum;
+
+        $salaryData['sum'] = $sum; // Вопрос по формуле
+        $salaryData['salary'] = $salary;
+        $salaryData['info'] = 'Количество заявок от клиентов с начала месяца по текущий момент: ' . $bidsNum;
         
-        return $sum;
+        return $salaryData;
     }
 
     private function workerCalculator($userId){
@@ -60,7 +63,7 @@ class SalaryService{
     }
 
     private function driverCalculator($userId){
-        $sum = 0;
+        $salaryData = [];
 
         // Извлекаем оклад
         $salary = Speciality::select('salary')->where('title', 'Водитель')->get();
@@ -75,8 +78,11 @@ class SalaryService{
         $tasksNum = Task::where('status', 'Выполнено')->where('driver_id', $userId)->whereBetween('end_date', [$firstDateOfCurrentMonth, $currentDate])->count();
         
         $sum = $salary + $tasksNum * 10;
+        $salaryData['sum'] = $sum;
+        $salaryData['salary'] = $salary;
+        $salaryData['info'] = 'Количество выполненных задач с начала месяца по текущий момент: ' . $tasksNum;
 
-        return $sum;
+        return $salaryData;
     }
 
     private function foremanCalculator($userId){

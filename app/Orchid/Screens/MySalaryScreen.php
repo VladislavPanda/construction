@@ -3,6 +3,8 @@
 namespace App\Orchid\Screens;
 
 use Orchid\Screen\Screen;
+use Orchid\Support\Facades\Layout;
+use Orchid\Screen\Fields\Group;
 use App\Services\SalaryService;
 
 class MySalaryScreen extends Screen
@@ -26,7 +28,9 @@ class MySalaryScreen extends Screen
         $service = new SalaryService();
         $salaryData = $service->getSalary();
 
-        return [];
+        return [
+            'salaryData' => $salaryData
+        ];
     }
 
     /**
@@ -46,6 +50,10 @@ class MySalaryScreen extends Screen
      */
     public function layout(): array
     {
-        return [];
+        return [
+            Layout::columns([
+                Layout::view('salaryInfo', ['salaryData' => 'salaryData']),
+            ]),
+        ];
     }
 }
