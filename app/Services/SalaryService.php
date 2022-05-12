@@ -4,8 +4,10 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Models\Speciality;
+use App\Models\Bid;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Db;
+use Carbon\Carbon;
 
 class SalaryService{
     public function getSalary(){
@@ -28,11 +30,25 @@ class SalaryService{
             break;
         }
 
-        print_r($salaryData);
+        return $salaryData;
     }
 
     private function managerCalculator($userId){
-        return 'manager';
+        $sum = 0;
+
+        // Извлекаем оклад
+        $salary = Speciality::select('salary')->where('title', 'Менеджер')->get();
+        $salary = $salary[0]->salary;
+
+        $start = Carbon::now()->startOfMonth()->timezone('Europe/Moscow');
+        $firstDateOfCurrentMonth = $start->toDateTimeString();
+
+        $current = Carbon::now()->timezone('Europe/Moscow');
+        $currentDate = $current->toDateTimeString();
+
+        $bidsNum = Bid::count();
+        // Вопрос по формуле
+        // $salaryData
     }
 
     private function workerCalculator($userId){
