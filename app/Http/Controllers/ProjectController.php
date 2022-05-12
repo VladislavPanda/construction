@@ -9,6 +9,7 @@ use App\Models\Speciality;
 use App\Models\ProjectForeman;
 use App\Models\User;
 use App\Models\Job;
+use App\Models\BudgetBid;
 use PDF;
 
 class ProjectController extends Controller
@@ -131,5 +132,25 @@ class ProjectController extends Controller
         ]);
     }
 
-    //public function 
+    public function updateBudget($budgetBid){
+        $budgetBidObject = BudgetBid::find($budgetBid['bidId']);
+
+        if($budgetBid['result'] == 'Одобрить'){
+            $budgetBidObject->update([
+                'status' => 'Одобрено'
+            ]);
+
+            $projectObj = Project::find($budgetBid['project_id']);
+            $projectData = $projectObj->toArray();
+            $newBudget = $projectData['budget'] - $budgetBid['sum'];
+
+            $projectObj->update([
+                'budget' => $newBudget
+            ]);
+        }else if($budgetBid['result'] == 'Отклонить'){
+            $budgetBidObject->update([
+                'status' => 'Отклонено'
+            ]);
+        }
+    } 
 }

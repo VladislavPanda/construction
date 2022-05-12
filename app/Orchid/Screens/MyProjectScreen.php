@@ -101,6 +101,9 @@ class MyProjectScreen extends Screen
                             ->method('budgetBids')
                             //->type(Color::PRIMARY())
                             ->class('shortBtn')   
+                            ->parameters([
+                                'project_id' => $this->project[0]['id']
+                            ])
                     ])->autowidth()
                 ])
             ]),
@@ -241,6 +244,6 @@ class MyProjectScreen extends Screen
 
     public function budgetBids(Request $request){
         //$budgetBid = $request->except(['_token']);
-        return redirect()->route('platform.budgetBids');
+        return redirect()->route('platform.budgetBids', ['project_id' => $request->get('project_id')]);
     }
 }
